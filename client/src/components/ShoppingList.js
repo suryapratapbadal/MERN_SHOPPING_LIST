@@ -6,11 +6,10 @@ import {
     Button
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import uuid from 'uuid';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getItems } from '../actions/index';
+import { getItems, deleteItem } from '../actions/index';
 
 class ShoppingList extends Component {
     constructor(props) {
@@ -28,35 +27,30 @@ class ShoppingList extends Component {
         this.setState({ items: nextProps.items })
     }
 
+    onDeleteClick = id => {
+        this.props.deleteItem(id);
+    }
+
+    // onAddClick = () => {
+    //     const name = prompt('Enter Item Name');
+    //     if (name) {
+    //         this.props.addItem(name);
+    //     }
+    // }
     render() {
         const { items } = this.state;
         return (
             <Container>
-                <Button
-                    color="dark"
-                    style={{ marginBottom: '2rem' }}
-                    onClick={() => {
-                        const name = prompt('Enter Item Name');
-                        if (name) {
-                            this.setState(state => ({
-                                items: [...state.items, { id: uuid(), name }]
-                            }));
-                        }
-                    }}>Add Item</Button>
                 <ListGroup>
                     <TransitionGroup className="shopping-list">
-                        {items.map(({ id, name }) =>
+                        {items.map(({ _id, name }) =>
                             (
-                                <CSSTransition key={id} timeout={500} classNames="fade">
+                                <CSSTransition key={_id} timeout={500} classNames="fade">
                                     <ListGroupItem>
                                         <Button className="remove-btn"
                                             color="danger"
                                             size="sm"
-                                            onClick={() => {
-                                                this.setState(state => ({
-                                                    items: state.items.filter(item => item.id !== id)
-                                                }));
-                                            }}>
+                                            onClick={this.onDeleteClick.bind(this, _id)}>
                                             &times;
                                             </Button>
                                         {name}
@@ -66,7 +60,7 @@ class ShoppingList extends Component {
                         )}
                     </TransitionGroup>
                 </ListGroup>
-            </Container>
+            </Container >
         );
     }
 }
@@ -78,6 +72,6 @@ export default connect(state => {
         items
     }
 }, dispatch => {
-    return bindActionCreators({ getItems: getItems }, dispatch)
+    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem }, dispatch)
 }
 )(ShoppingList);
