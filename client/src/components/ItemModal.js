@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { addItem } from '../actions/index';
 
-class ItemModal extends Component {
+export class ItemModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,7 +29,7 @@ class ItemModal extends Component {
     }
 
     onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ name: event.target.value });
     }
 
     onSubmit = event => {

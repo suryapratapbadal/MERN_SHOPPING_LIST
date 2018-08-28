@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ItemModal /> render() renders the component 1`] = `
+<div>
+  <Button
+    color="dark"
+    onClick={[Function]}
+    style={
+      Object {
+        "marginBottom": "2rem",
+      }
+    }
+    tag="button"
+  >
+    Add Item
+  </Button>
+  <Modal
+    autoFocus={true}
+    backdrop={true}
+    backdropTransition={
+      Object {
+        "mountOnEnter": true,
+        "timeout": 150,
+      }
+    }
+    centered={false}
+    fade={true}
+    isOpen={false}
+    keyboard={true}
+    modalTransition={
+      Object {
+        "timeout": 300,
+      }
+    }
+    onClosed={[Function]}
+    onOpened={[Function]}
+    role="dialog"
+    toggle={[Function]}
+    zIndex={1050}
+  >
+    <ModalHeader
+      charCode={215}
+      closeAriaLabel="Close"
+      tag="h5"
+      toggle={[Function]}
+      wrapTag="div"
+    >
+      Add to Shopping List
+    </ModalHeader>
+    <ModalBody
+      tag="div"
+    >
+      <Form
+        onSubmit={[Function]}
+        tag="form"
+      >
+        <FormGroup
+          tag="div"
+        >
+          <Label
+            for="item"
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Item
+          </Label>
+          <Input
+            id="item"
+            name="name"
+            onChange={[Function]}
+            placeholder="Add shooping item"
+            type="text"
+          />
+          <Button
+            block={true}
+            color="dark"
+            style={
+              Object {
+                "marginTop": "2rem",
+              }
+            }
+            tag="button"
+          >
+            Add Item
+          </Button>
+        </FormGroup>
+      </Form>
+    </ModalBody>
+  </Modal>
+</div>
+`;

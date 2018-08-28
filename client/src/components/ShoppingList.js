@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem } from '../actions/index';
 
-class ShoppingList extends Component {
+export class ShoppingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,12 +31,7 @@ class ShoppingList extends Component {
         this.props.deleteItem(id);
     }
 
-    // onAddClick = () => {
-    //     const name = prompt('Enter Item Name');
-    //     if (name) {
-    //         this.props.addItem(name);
-    //     }
-    // }
+    
     render() {
         const { items } = this.state;
         return (
