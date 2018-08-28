@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`select_reducer ADD_ITEM returns the correct state 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": 1,
+          "name": "Milk",
+        },
+      ],
+    },
+  ],
+  "loading": false,
+}
+`;
+
+exports[`select_reducer DELETE_ITEM returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+}
+`;
+
+exports[`select_reducer GET_ITEMS returns the correct state 1`] = `
+Object {
+  "items": Object {
+    "items": Array [
+      Object {
+        "id": 1,
+        "name": "Milk",
+      },
+    ],
+  },
+  "loading": false,
+}
+`;
+
+exports[`select_reducer INITIAL_STATE is correct 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+}
+`;

@@ -41,7 +41,7 @@ describe('<ShoppingList />', () => {
     // const wrapper = shallow(<ShoppingList items={items} getItems={mockgetItemsfn} deleteItem={mockdeleteItemfn} />);
     test('call onDeleteClick()', () => {
 
-      wrapper.find('Button').at(0).simulate('click')
+      wrapper.find('Button').simulate('click')
       expect(mockdeleteItemfn).toHaveBeenCalledTimes(1);
       
     });
