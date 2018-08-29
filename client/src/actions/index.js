@@ -1,6 +1,6 @@
 export const getItems = () => {
     return async (dispatch, getState) => {
-        fetch('/api/items', {
+       return fetch('/api/items', {
             method: 'GET',
             mode: 'cors',
         }).then(data => data.json()).then((dataJson) => {
@@ -17,7 +17,7 @@ export const getItems = () => {
 
 export const addItem = item => {
     return async (dispatch, getState) => {
-        fetch('/api/items', {
+       return fetch('/api/items', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -38,7 +38,7 @@ export const addItem = item => {
 
 export const deleteItem = id => {
     return async (dispatch, getState) => {
-        fetch('/api/items/' + id, {
+        return fetch('/api/items/' + id, {
             method: 'DELETE',
             mode: 'cors',
         }).then(data => data.json()).then((dataJson) => {

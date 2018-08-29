@@ -1,77 +1,48 @@
-// import configureMockStore from 'redux-mock-store';
-// import thunk from 'redux-thunk'
-
-// // Actions to be tested
-import * as selectActions from './index';
-
-// const middlewares = [thunk]
-// const mockStore = configureMockStore(middlewares)
-// // const mockStore = configureStore();
-
-// // const mockServiceCreator = (body, succeeds = true) => () =>
-// //     new Promise((resolve, reject) => {
-// //         setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-// //     });
-
-
-
-// describe('select_actions', () => {
-// beforeEach(() => { // Runs before each test in the suite
-//     store.clearActions();   
-            
-// });
-
-//     describe('Get Items', () => {
-//         test('Dispatches the correct action and payload', () => {
-//             const expectedActions = [
-               
-//             ];
-
-//             store.dispatch(selectActions.getItems);
-//             expect(store.getActions()).toEqual(expectedActions);
-//         });
-//     });
-
-//     describe('Get Items', () => {
-//         test('Dispatches the correct action and payload', () => {
-//             const expectedActions = [
-               
-//             ];
-
-//             store.dispatch(selectActions.addItem({ name: 'Oil'}));
-//             expect(store.getActions()).toEqual(expectedActions);
-//         });
-//     });
-
-// });
-
-
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import * as actions from './index'
+import "isomorphic-fetch"
+import ''
+import fetchMock from 'fetch-mock'
+import expect from 'expect' // You can use any testing library
 
-const middlewares = [ thunk ];
-const mockStore = configureMockStore(middlewares);
-const store = mockStore({items : [{id: '1', name: 'Milk'}]});
+const middlewares = [thunk]
+const mockStore = configureMockStore(middlewares)
 
-const mockResponse = (status, statusText, response) => {
-    return new window.Response(response, {
-      status: status,
-      statusText: statusText,
-      headers: {
-        'Content-type': 'application/json'
-      }
-    });
-  };
-
-  it('calls request and success actions if the fetch response was successful', () => {
-    window.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve(mockResponse(200, null, '{"items":{id: 1, name: "Milk"}}')));
+describe('async actions', () => {
   
-    return store.dispatch(selectActions.getItems)
-      .then(() => {
-        const expectedActions = store.getActions();
-        expect(expectedActions.length).toBe(1);
-        
-        expect(expectedActions).toContainEqual( [{"payload":{"items":[{id: 1, name: "Milk"}]},"type": "GET_ITEMS"}]);
-      })
-  });
+  afterEach(() => {
+    fetchMock.reset()
+    fetchMock.restore()
+  })
+
+  it('creates ADD_ITEM when new item added', () => {
+    fetchMock
+      .postOnce('/api/items', { body: JSON.stringify({name:"Oil"}), headers: { 'content-type': 'application/json' } })
+
+    const expectedActions = [
+      { type: 'ADD_ITEM', payload: {name:'Oil'} }
+    ]
+    const store = mockStore({ items:[], loading: false })
+
+    return store.dispatch(actions.addItem({name: 'Oil'})).then(() => {
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
+
+  it('creates GET_ITEMS when item retrieved', () => {
+    fetchMock
+      .getOnce('/api/items', { body: {items:[{id: 1,name: 'milk'}]}, headers: { 'content-type': 'application/json' } })
+
+    const expectedActions = [
+      { type: 'GET_ITEMS', payload: {items:[{id: 1,name: 'milk'}]} }
+    ]
+    const store = mockStore({ items:[{id: 1,name: 'milk'}], loading: false })
+
+    return store.dispatch(actions.getItems()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions)
+    })
+  })
+
+  
+})
