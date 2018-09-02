@@ -4,6 +4,10 @@ const router = express.Router();
 // Item Model
 const Item = require('../../models/Item');
 
+// Recipe Model
+// const recipe = require('../../models/');
+
+
 
 // @rout    GET  api/item
 // @desc    Get All Data
@@ -34,5 +38,14 @@ router.delete('/:id', (req, res) => {
         .then(item => item.remove().then(() => res.json({ success: true })))
         .catch(err => res.status(404).json({ success: false }));
 });
+
+// @rout    GET  api/item/recipe
+// @desc    Get All item recipe
+// @access  Public
+// router.get('/recipe', (req, res) => {
+//     recipe.find()
+//         .sort({ date: -1 })
+//         .then(items => res.json(items));
+// });
 
 module.exports = router;

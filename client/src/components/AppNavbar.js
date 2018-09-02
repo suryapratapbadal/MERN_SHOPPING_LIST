@@ -7,7 +7,8 @@ import {
     Nav,
     NavItem,
     NavLink,
-    Container
+    Container,
+    Button,
 } from 'reactstrap';
 
 export default class AppNavbar extends Component {
@@ -38,6 +39,7 @@ export default class AppNavbar extends Component {
                                     <NavLink href="https://github.com/suryapratapbadal/MERN_SHOPPING_LIST">Github</NavLink>
                                 </NavItem>
                             </Nav>
+                            <Button color='secondary' style={{marginLeft: '2em'}} disabled={!this.props.user}>Log Out</Button>
                         </Collapse>
                     </Container>
                 </Navbar>

@@ -13,4 +13,20 @@ const ItemSchema = new Schema ({
     }
 });
 
+const recipeTagsSchema = new Schema ({
+    id: {
+        type:Schema.Types.Mixed,
+        removeListener: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+});
+
 module.exports = Item = mongoose.model('item', ItemSchema);
+// module.exports = recipe = mongoose.model('recipe', recipeTagsSchema);

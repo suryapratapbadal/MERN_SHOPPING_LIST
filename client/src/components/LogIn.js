@@ -3,34 +3,82 @@ import {
     Container, Col, Form,
     FormGroup, Label, Input,
     Button,
-    FormFeedback,
-    FormText
+    FormFeedback
 } from 'reactstrap';
+import { verifyUser } from '../actions/index';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export default class LogIn extends Component {
+class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            validEmail: true,
-            validPassword: true,
-            validate: false,
+            validEmail:false,
+            validPassword: false,
+            validateEmail: false,
+            validatePass: false,
             email: '',
             password: '',
             emailMessage: '',
+            passwordMessage: '',
         };
     }
 
     onEmailChange = event => {
-        const email = event.target
-        console.log('Email changed', event.target.value);
+        const email = event.target.value;
+        this.setState({email: email});
     }
 
     onPasswordChange = event => {
-        console.log('Password changed', event);
+        const password = event.target.value;
+        this.setState({password: password});
     }
 
-    onInputBlur = () => {
+    onEmailBlur = event => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+        if(this.state.email === '') {
+            this.setState({emailMessage: 'Email cannot be blank',validateEmail:true, validEmail: false});
+            return;
+        }
+        if(!re.test(this.state.email)){
+            this.setState({emailMessage: 'Please enter valid Email',validateEmail:true,validEmail: false});
+            return;
+        }
+        else {
+            this.setState({validateEmail:true,validEmail: true});
+            return;
+        }
+    }
+
+    onPasswordBlur = event => {
+        
+        if(this.state.password === '') {
+            this.setState({validatePass:true, validPassword: false, passwordMessage: 'Password cannot be left blank'});
+            return;
+        }
+        else {
+            this.setState({validatePass:true,validPassword: true});
+            return;
+        }
+    }
+
+    validateUser = () => {
+        const user = this.props.user[0];
+        
+        if(user.email === this.state.email) {
+            if(user.password === this.state.password) {
+                
+                this.props.verifyUser();
+            }
+            else{
+                this.setState({validPassword: false, passwordMessage: 'Password not correct, Enter valid password'});
+            }
+
+        }
+        else{
+            this.setState({validEmail: false, emailMessage: 'Email not correct, Enter valid Mail Id'});
+        }
     }
 
 
@@ -47,10 +95,10 @@ export default class LogIn extends Component {
                                 name="email"
                                 id="exampleEmail"
                                 placeholder="myemail@email.com"
-                                valid={this.state.validate && this.state.validEmail}
-                                invalid={this.state.validate && !this.state.validEmail}
+                                valid={this.state.validateEmail && this.state.validEmail}
+                                invalid={this.state.validateEmail && !this.state.validEmail}
                                 onChange={this.onEmailChange}
-                                onBlur={this.onInputBlur}
+                                onBlur={this.onEmailBlur}
                             />
                             <FormFeedback>{this.state.emailMessage}</FormFeedback>
                         </FormGroup>
@@ -63,15 +111,15 @@ export default class LogIn extends Component {
                                 name="password"
                                 id="examplePassword"
                                 placeholder="********"
-                                valid={this.state.validate && this.state.validPassword}
-                                invalid={this.state.validate && !this.state.validPassword}
+                                valid={this.state.validatePass && this.state.validPassword}
+                                invalid={this.state.validatePass && !this.state.validPassword}
                                 onChange={this.onPasswordChange}
-                                onBlur={this.onInputBlur}
+                                onBlur={this.onPasswordBlur}
                             />
-                            <FormFeedback>Password can't be left blank</FormFeedback>
+                            <FormFeedback>{this.state.passwordMessage}</FormFeedback>
                         </FormGroup>
                     </Col>
-                    <Button disabled={this.state.validEmail && this.state.validPassword}>Submit</Button>
+                    <Button disabled={!this.state.validEmail || !this.state.validPassword} onClick={this.validateUser}>Submit</Button>
                 </Form>
             </Container>
         );
@@ -90,3 +138,12 @@ const logInStyle = {
     width: '600px',
     marginTop: '100px',
 }
+
+export default connect(state => {
+    const user = state.userReducer || {};
+    return {
+        user
+    }
+}, dispatch => {
+    return bindActionCreators({ verifyUser: verifyUser }, dispatch)
+})(LogIn);

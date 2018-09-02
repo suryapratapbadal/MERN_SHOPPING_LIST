@@ -7,17 +7,18 @@ const initialState = {
 
 const itemReducer = (state = initialState, action) => {
     const { type, payload } = action;
-    switch(type){
+    switch (type) {
         case 'GET_ITEMS':
             return {
                 ...state,
                 items: payload,
+                loading: false
             };
 
         case 'ADD_ITEM':
             return {
                 ...state,
-                items: [...state.items, payload ]
+                items: [...state.items, payload]
             };
 
         case 'DELETE_ITEM':
@@ -26,8 +27,20 @@ const itemReducer = (state = initialState, action) => {
                 items: state.items.filter(item => item._id !== payload)
             };
 
+        case 'VERIFY_USER':
+            return {
+                ...state,
+                user: true
+            };
+
+        // case 'LOADING':
+        //     return{
+        //         ...state,
+        //         loading: true,
+        //     }
+
         default:
-            return {...state};
+            return { ...state };
     }
 };
 

@@ -4,7 +4,7 @@ import AppNavbar from './AppNavbar';
 import ShoppingList from './ShoppingList';
 import ItemModal from './ItemModal';
 import LogIn from './LogIn';
-import { Container, Progress } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 
 
@@ -16,18 +16,17 @@ class Root extends Component {
         };
     }
     render() {
-        console.log('....', this.props.loading,this.state.user);
+        console.log('.....',this.props.loading,this.props.user);    
         return (
             <div className="App">
-                <AppNavbar />
+                <AppNavbar user={this.props.user}/>
                 {
-                    !this.state.user ? <LogIn /> :
-                    !this.props.loading ? 
+                    !this.props.user ? <LogIn /> :
                     <Container>
                         <ItemModal />
                         <ShoppingList />
-                    </Container>:
-                    <Progress animated color="success" value="100" />
+                    </Container>
+                    // <Progress animated color="success" value="100" />
                 }
             </div>
         );

@@ -1,7 +1,7 @@
 const users = () => {
     return [
         {
-            name: 'badal2206',
+            email: 'badal2206@gmail.com',
             password: 'iamgame@1010'
         }
     ];

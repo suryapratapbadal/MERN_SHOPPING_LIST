@@ -1,6 +1,7 @@
 export const getItems = () => {
     return async (dispatch, getState) => {
-       return fetch('/api/items', {
+        // dispatch(loading());
+        return fetch('/api/items', {
             method: 'GET',
             mode: 'cors',
         }).then(data => data.json()).then((dataJson) => {
@@ -17,7 +18,7 @@ export const getItems = () => {
 
 export const addItem = item => {
     return async (dispatch, getState) => {
-       return fetch('/api/items', {
+        return fetch('/api/items', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -55,10 +56,18 @@ export const deleteItem = id => {
 
 
 
-// export const setItemsLoading = () => {
+export const verifyUser = () => {
+    console.log('action Creators call')
+    return {
+        type: 'VERIFY_USER',
+        payload: ''
+    };
+};
+
+
+// export const loading = () => {
 //     return {
-//         type: 'ITEMS_LOADING',
+//         type: 'LOADING',
 //         payload: ''
 //     };
 // };
-
