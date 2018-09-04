@@ -3,19 +3,22 @@ import {
     Container,
     ListGroup,
     ListGroupItem,
-    Button
+    Button,
+    CustomInput
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem } from '../actions/index';
+import Checkbox from './Chekbox';
 
 export class ShoppingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             items: this.props.items,
+            varient: this.props.varient || false,
         };
     }
 
@@ -49,6 +52,8 @@ export class ShoppingList extends Component {
                                             &times;
                                             </Button>
                                         {name}
+
+                                    {!this.state.varient && <Checkbox/>}
                                     </ListGroupItem>
                                 </CSSTransition>
                             )
