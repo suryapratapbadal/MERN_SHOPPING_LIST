@@ -3,7 +3,8 @@ import {
     Container,
     ListGroup,
     ListGroupItem,
-    Button
+    Button,
+    Badge
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -31,7 +32,7 @@ export class ShoppingList extends Component {
         this.props.deleteItem(id);
     }
 
-    
+
     render() {
         const { items } = this.state;
         return (
@@ -48,7 +49,13 @@ export class ShoppingList extends Component {
                                             onClick={this.onDeleteClick.bind(this, _id)}>
                                             &times;
                                             </Button>
-                                        {name}
+                                        <Button color="secondary" outline>
+                                            {name} <Badge color="success">4</Badge>
+                                        </Button>
+                                        <Button color="primary" outline style={{float:'right'}}>
+                                            Add recipe <Badge color="info">&#43;</Badge>
+                                        </Button>
+
                                     </ListGroupItem>
                                 </CSSTransition>
                             )

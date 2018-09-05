@@ -21,7 +21,7 @@ class Root extends Component {
             <div className="App">
                 <AppNavbar user={this.props.user}/>
                 {
-                    !this.props.user ? <LogIn /> :
+                    this.props.user ? <LogIn /> :
                     <Container>
                         <ItemModal />
                         <ShoppingList />
