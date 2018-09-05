@@ -10,6 +10,8 @@ import {
     Input
 } from 'reactstrap';
 
+import ItemFilter from './ItemFilter';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -21,6 +23,7 @@ export class ItemModal extends Component {
         this.state = {
             modal: false,
             name: '',
+            varient: this.props.varient || false,
         };
     }
 
@@ -36,7 +39,8 @@ export class ItemModal extends Component {
 
         event.preventDefault();
         const newItem = {
-            name: this.state.name
+            name: this.state.name,
+            varient: this.props.varient || false,
         };
 
 
@@ -52,6 +56,7 @@ export class ItemModal extends Component {
                     style={{ marginBottom: '2rem' }}
                     onClick={this.toggle}
                 >Add Item</Button>
+                {this.state.varient && <ItemFilter/>}
                 <Modal
                     isOpen={this.state.modal}
                     toggle={this.toggle}

@@ -4,19 +4,25 @@ import {
     ListGroup,
     ListGroupItem,
     Button,
+<<<<<<< HEAD
     Badge
+=======
+    CustomInput
+>>>>>>> 15d0648669eee2b1f911b8e259986669e26f5706
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem } from '../actions/index';
+import Checkbox from './Chekbox';
 
 export class ShoppingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             items: this.props.items,
+            varient: this.props.varient || false,
         };
     }
 
@@ -56,6 +62,9 @@ export class ShoppingList extends Component {
                                             Add recipe <Badge color="info">&#43;</Badge>
                                         </Button>
 
+                                        {name}
+
+                                    {!this.state.varient && <Checkbox/>}
                                     </ListGroupItem>
                                 </CSSTransition>
                             )
