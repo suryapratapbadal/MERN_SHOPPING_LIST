@@ -4,17 +4,13 @@ import {
     ListGroup,
     ListGroupItem,
     Button,
-<<<<<<< HEAD
     Badge
-=======
-    CustomInput
->>>>>>> 15d0648669eee2b1f911b8e259986669e26f5706
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getItems, deleteItem } from '../actions/index';
+import { getItems, deleteItem, updateItem } from '../actions/index';
 import Checkbox from './Chekbox';
 
 export class ShoppingList extends Component {
@@ -31,6 +27,7 @@ export class ShoppingList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('.......ITEMS', nextProps)
         this.setState({ items: nextProps.items })
     }
 
@@ -41,30 +38,23 @@ export class ShoppingList extends Component {
 
     render() {
         const { items } = this.state;
+        
         return (
             <Container>
                 <ListGroup>
                     <TransitionGroup className="shopping-list">
-                        {items.map(({ _id, name }) =>
+                        {items.map(({ _id, name, completed }) =>
                             (
                                 <CSSTransition key={_id} timeout={500} classNames="fade">
                                     <ListGroupItem>
                                         <Button className="remove-btn"
-                                            color="danger"
+                                            color={completed?'success':'danger'}
                                             size="sm"
                                             onClick={this.onDeleteClick.bind(this, _id)}>
                                             &times;
                                             </Button>
-                                        <Button color="secondary" outline>
-                                            {name} <Badge color="success">4</Badge>
-                                        </Button>
-                                        <Button color="primary" outline style={{float:'right'}}>
-                                            Add recipe <Badge color="info">&#43;</Badge>
-                                        </Button>
-
                                         {name}
-
-                                    {!this.state.varient && <Checkbox/>}
+                                        <Checkbox completed={completed} id={_id}/>
                                     </ListGroupItem>
                                 </CSSTransition>
                             )
@@ -83,6 +73,6 @@ export default connect(state => {
         items
     }
 }, dispatch => {
-    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem }, dispatch)
+    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem: updateItem }, dispatch)
 }
 )(ShoppingList);

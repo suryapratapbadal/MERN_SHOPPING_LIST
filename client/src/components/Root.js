@@ -13,7 +13,7 @@ class Root extends Component {
         super(props);
         this.state = {
             user: this.props.user,
-            varient: false,
+            varient: true,
         };
     }
     render() {
@@ -24,10 +24,9 @@ class Root extends Component {
                 {
                     this.props.user ? <LogIn /> :
                     <Container>
-                        <ItemModal varient={this.state.varient}/>
-                        <ShoppingList varient={this.state.varient}/>
+                        <ItemModal/>
+                        <ShoppingList/>
                     </Container>
-                    // <Progress animated color="success" value="100" />
                 }
             </div>
         );

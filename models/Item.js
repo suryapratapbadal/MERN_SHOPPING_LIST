@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Create Schema
-const ItemSchema = new Schema ({
+const ItemSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -10,13 +10,17 @@ const ItemSchema = new Schema ({
     date: {
         type: Date,
         default: Date.now
+    },
+    completed: {
+        type: Boolean,
+        default: false
     }
 });
 
-const recipeTagsSchema = new Schema ({
+const recipeTagsSchema = new Schema({
     id: {
-        type:Schema.Types.Mixed,
-        removeListener: true
+        type: Schema.Types.Mixed,
+        required: true
     },
     name: {
         type: String,
@@ -28,5 +32,9 @@ const recipeTagsSchema = new Schema ({
     },
 });
 
-module.exports = Item = mongoose.model('item', ItemSchema);
-// module.exports = recipe = mongoose.model('recipe', recipeTagsSchema);
+Item = mongoose.model('item', ItemSchema);
+Recipe = mongoose.model('recipe', recipeTagsSchema);
+module.exports = {
+    Item: Item,
+    Recipe: Recipe
+};

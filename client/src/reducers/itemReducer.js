@@ -27,6 +27,12 @@ const itemReducer = (state = initialState, action) => {
                 items: state.items.filter(item => item._id !== payload)
             };
 
+        case 'UPDATE_ITEM':
+            return {
+                ...state,
+                items: state.items.filter(item => item._id !== payload).push(payload)
+            };
+
         case 'VERIFY_USER':
             return {
                 ...state,

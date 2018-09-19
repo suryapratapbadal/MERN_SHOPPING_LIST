@@ -10,8 +10,6 @@ import {
     Input
 } from 'reactstrap';
 
-import ItemFilter from './ItemFilter';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -56,7 +54,6 @@ export class ItemModal extends Component {
                     style={{ marginBottom: '2rem' }}
                     onClick={this.toggle}
                 >Add Item</Button>
-                {this.state.varient && <ItemFilter/>}
                 <Modal
                     isOpen={this.state.modal}
                     toggle={this.toggle}

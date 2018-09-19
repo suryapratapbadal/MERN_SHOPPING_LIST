@@ -54,7 +54,26 @@ export const deleteItem = id => {
     }
 };
 
+export const updateItem = (id, updateData) => {
+    return async (dispatch, getState) => {
+        return fetch('/api/items/' + id, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updateData),
+        }).then(data => data.json()).then((dataJson) => {
+            dispatch({
+                type: 'UPDATE_ITEM',
+                payload: dataJson
+            });
 
+        })
+
+
+    }
+};
 
 export const verifyUser = () => {
     console.log('action Creators call')
@@ -64,10 +83,3 @@ export const verifyUser = () => {
     };
 };
 
-
-// export const loading = () => {
-//     return {
-//         type: 'LOADING',
-//         payload: ''
-//     };
-// };
