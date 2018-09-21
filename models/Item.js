@@ -18,8 +18,8 @@ const ItemSchema = new Schema({
 });
 
 const recipeTagsSchema = new Schema({
-    id: {
-        type: Schema.Types.Mixed,
+    item_id: {
+        type: String,
         required: true
     },
     name: {

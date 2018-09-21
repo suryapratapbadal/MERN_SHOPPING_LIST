@@ -9,7 +9,7 @@ const Modal = require('../../models/Item');
 
 
 
-// @rout    GET  api/item
+// @rout    GET  api/items
 // @desc    Get All Data
 // @access  Public
 router.get('/', (req, res) => {
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
         .then(items => res.json(items)).catch(err => console.log(err));
 });
 
-// @rout    POST  api/item
+// @rout    POST  api/items
 // @desc    Create An Item
 // @access  Public
 router.post('/', (req, res) => {
@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
         .then(item => res.json(item));
 });
 
-// @rout    DELETE  api/item/:id
+// @rout    DELETE  api/items/:id
 // @desc    Delete A Item
 // @access  Public
 router.delete('/:id', (req, res) => {
@@ -39,7 +39,7 @@ router.delete('/:id', (req, res) => {
         .catch(err => res.status(404).json({ success: false }));
 });
 
-// @rout    UPDADTE  api/item/:id
+// @rout    UPDADTE  api/items/:id
 // @desc    Update item
 // @access  Public
 router.put('/:id', (req, res) => {
@@ -48,5 +48,7 @@ router.put('/:id', (req, res) => {
         .then(item => res.json({success: true, item: item}))
         .catch(err => res.status(404).json({success: false,Error:err}));
 });
+
+
 
 module.exports = router;

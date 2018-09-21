@@ -5,14 +5,17 @@ import {
     ListGroupItem,
     Button,
     Form,
-    CustomInput
+    FormGroup,
+    CustomInput,
+    Label,
+    Input
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem, updateItem } from '../actions/index';
-import Checkbox from './Chekbox';
+import Recipe from './Recipe';
 
 export class ShoppingList extends Component {
     constructor(props) {
@@ -27,11 +30,11 @@ export class ShoppingList extends Component {
         this.props.getItems();
     }
     componentDidUpdate(prevProps) {
-        console.log('.......ITEMS LIST....', prevProps,this.props)
+        console.log('.......ITEMS LIST....', prevProps, this.props)
     }
 
     componentWillReceiveProps(nextProps) {
-        
+
         this.setState({ items: nextProps.items })
     }
 
@@ -39,14 +42,14 @@ export class ShoppingList extends Component {
         this.props.deleteItem(id);
     }
 
-    onUpdate = (id,data) => {
-        console.log('...CLICKED...',)
-        this.props.updateItem( id,data)
+    onUpdate = (id, data) => {
+        console.log('...CLICKED...', )
+        this.props.updateItem(id, data)
     }
 
     render() {
         const { items } = this.state;
-        
+
         return (
             <Container>
                 <ListGroup>
@@ -56,14 +59,23 @@ export class ShoppingList extends Component {
                                 <CSSTransition key={_id} timeout={500} classNames="fade">
                                     <ListGroupItem>
                                         <Button className="remove-btn"
-                                            color={completed?'success':'danger'}
+                                            color='danger'
                                             size="sm"
                                             onClick={this.onDeleteClick.bind(this, _id)}>
                                             &times;
                                             </Button>
                                         {name}
-                                        <Form style={{float: 'right'}} inline>
-                                            <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this,_id,{"completed": !completed})}/>
+
+                                        <Form inline style={{ float: 'right' }}>
+                                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                                <Label for="recipe" className="mr-sm-2">Recipe</Label>
+                                                <Input type="text" name="recipe" id="recipe" placeholder="Recipe name.." />
+
+                                            </FormGroup>
+                                            <Button outline color='primary' style={{marginRight: '2rem'}}>Add</Button>
+                                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                                <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
+                                            </FormGroup>
                                         </Form>
                                         {/* <Checkbox completed={completed} id={_id}/> */}
                                     </ListGroupItem>
