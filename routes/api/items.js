@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
     newItem.save()
         .then(item => res.json(item));
 });
- 
+
 // @rout    DELETE  api/item/:id
 // @desc    Delete A Item
 // @access  Public
@@ -43,10 +43,10 @@ router.delete('/:id', (req, res) => {
 // @desc    Update item
 // @access  Public
 router.put('/:id', (req, res) => {
-    
-    Modal.Item.findByIdAndUpdate({_id:req.params.id},req.body, {new:true})
-    .then(item=> res.json(item))
-    .catch(err => res.json(err));
+
+    Modal.Item.findByIdAndUpdate({ _id: req.params.id }, req.body)
+        .then(item => res.json({success: true, item: item}))
+        .catch(err => res.status(404).json({success: false,Error:err}));
 });
 
 module.exports = router;

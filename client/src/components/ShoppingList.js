@@ -4,7 +4,8 @@ import {
     ListGroup,
     ListGroupItem,
     Button,
-    Badge
+    Form,
+    CustomInput
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -25,9 +26,12 @@ export class ShoppingList extends Component {
     componentDidMount() {
         this.props.getItems();
     }
+    componentDidUpdate(prevProps) {
+        console.log('.......ITEMS LIST....', prevProps,this.props)
+    }
 
     componentWillReceiveProps(nextProps) {
-        console.log('.......ITEMS', nextProps)
+        
         this.setState({ items: nextProps.items })
     }
 
@@ -35,6 +39,10 @@ export class ShoppingList extends Component {
         this.props.deleteItem(id);
     }
 
+    onUpdate = (id,data) => {
+        console.log('...CLICKED...',)
+        this.props.updateItem( id,data)
+    }
 
     render() {
         const { items } = this.state;
@@ -54,7 +62,10 @@ export class ShoppingList extends Component {
                                             &times;
                                             </Button>
                                         {name}
-                                        <Checkbox completed={completed} id={_id}/>
+                                        <Form style={{float: 'right'}} inline>
+                                            <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this,_id,{"completed": !completed})}/>
+                                        </Form>
+                                        {/* <Checkbox completed={completed} id={_id}/> */}
                                     </ListGroupItem>
                                 </CSSTransition>
                             )
@@ -69,10 +80,12 @@ export class ShoppingList extends Component {
 
 export default connect(state => {
     const items = state.itemReducer.items || [];
+    const updateSuccessfull = state.itemReducer.updateSuccessfull || false;
     return {
-        items
+        items,
+        updateSuccessfull
     }
 }, dispatch => {
-    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem: updateItem }, dispatch)
+    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem }, dispatch)
 }
 )(ShoppingList);

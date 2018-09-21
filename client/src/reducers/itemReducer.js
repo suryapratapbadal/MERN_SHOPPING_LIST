@@ -28,9 +28,10 @@ const itemReducer = (state = initialState, action) => {
             };
 
         case 'UPDATE_ITEM':
+        const item = payload.item;
             return {
                 ...state,
-                items: state.items.filter(item => item._id !== payload).push(payload)
+                items:state.items.filter(item => item._id !== payload.item._id).push(item),
             };
 
         case 'VERIFY_USER':
