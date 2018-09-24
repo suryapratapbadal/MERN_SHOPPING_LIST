@@ -1,94 +1,65 @@
 import React, { Component } from 'react';
-import {
-    Button,
-    Modal,
-    ModalBody,
-    ModalHeader,
-    Form,
-    FormGroup,
-    Label,
-    Input
-} from 'reactstrap';
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { addItem } from '../actions/index';
-
-export class Recipe extends Component {
+class Example extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            modal: false,
-            name: '',
-            varient: this.props.varient || false,
+            // collapse: this.props.collapse,
+            status: 'Closed'
         };
     }
 
-    toggle = () => {
-        this.setState({ modal: !this.state.modal });
+    componentWillReceiveProps(nextProps) {
+        console.log('.......Collapse....', nextProps, this.props)
+        this.setState({collapse: nextProps.collapse})
     }
 
-    onChange = event => {
-        this.setState({ name: event.target.value });
+    onEntering = () => {
+        console.log('......Opening....');
     }
 
-    onSubmit = event => {
-
-        event.preventDefault();
-        const newItem = {
-            name: this.state.name,
-            varient: this.props.varient || false,
-        };
-
-
-        this.props.addItem(newItem);
-        this.toggle();
+    onEntered = () => {
+        console.log('......Opened....');
     }
+
+    onExiting = () => {
+        console.log('......Closing....');
+    }
+
+    onExited = () => {
+        console.log('......Closed....');
+    }
+
+    //   toggle = () => {
+    //     this.setState({ collapse: !this.state.collapse });
+    //   }
 
     render() {
         return (
             <div>
-                <Button outline
-                    color="primary"
-                    style={{ marginBottom: '2rem' }}
-                    onClick={this.toggle}
-                >Add Recipe</Button>
-                <Modal
-                    isOpen={this.state.modal}
-                    toggle={this.toggle}
+                {/* <Button color="primary" onClick={this.toggle}>Recipe related to Item</Button> */}
+                {/* <h5>Current state: {this.state.status}</h5> */}
+                <Collapse
+                    isOpen={ this.props.id === this.props.open_id}
+                    onEntering={this.onEntering}
+                    onEntered={this.onEntered}
+                    onExiting={this.onExiting}
+                    onExited={this.onExited}
                 >
-                    <ModalHeader
-                        toggle={this.toggle}
-                    >Add to Shopping List</ModalHeader>
-                    <ModalBody>
-                        <Form onSubmit={this.onSubmit}>
-                            <FormGroup>
-                                <Label for="item">Item</Label>
-                                <Input
-                                    type="text"
-                                    name="name"
-                                    id="item"
-                                    placeholder="Add shooping item"
-                                    onChange={this.onChange}
-                                />
-                                <Button
-                                    color="dark"
-                                    style={{ marginTop: '2rem' }}
-                                    block
-                                >Add Item</Button>
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                </Modal>
+                    <Card>
+                        <CardBody>
+                            Anim pariatur cliche reprehenderit,
+                           enim eiusmod high life accusamus terry richardson ad squid. Nihil
+                           anim keffiyeh helvetica, craft beer labore wes anderson cred
+                           nesciunt sapiente ea proident.
+            </CardBody>
+                    </Card>
+                </Collapse>
             </div>
         );
     }
 }
 
-export default connect(state => {
-    return {}
-}, dispatch => {
-    return bindActionCreators({ addItem: addItem }, dispatch)
-}
-)(Recipe);
+export default Example;

@@ -69,7 +69,7 @@ export const updateItem = (id, updateData) => {
                 payload: dataJson
             });
 
-        })
+        }).catch(err=>console.log(err));
 
 
     }

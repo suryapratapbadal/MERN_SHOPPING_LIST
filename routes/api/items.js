@@ -44,9 +44,9 @@ router.delete('/:id', (req, res) => {
 // @access  Public
 router.put('/:id', (req, res) => {
 
-    Modal.Item.findByIdAndUpdate({ _id: req.params.id }, req.body)
-        .then(item => res.json({success: true, item: item}))
-        .catch(err => res.status(404).json({success: false,Error:err}));
+    Modal.Item.findByIdAndUpdate({ _id: req.params.id }, req.body, {new: true})
+        .then(item => res.json(item))
+        .catch(err => res.status(404).json({ success: false}));
 });
 
 

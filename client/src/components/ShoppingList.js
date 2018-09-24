@@ -8,14 +8,16 @@ import {
     FormGroup,
     CustomInput,
     Label,
-    Input
+    Input,
+    Row,
+    Col
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+import Recipe from './Recipe';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem, updateItem } from '../actions/index';
-import Recipe from './Recipe';
 
 export class ShoppingList extends Component {
     constructor(props) {
@@ -23,15 +25,18 @@ export class ShoppingList extends Component {
         this.state = {
             items: this.props.items,
             varient: this.props.varient || false,
+            collapse: false,
+            id: null,
         };
     }
 
     componentDidMount() {
         this.props.getItems();
     }
-    componentDidUpdate(prevProps) {
-        console.log('.......ITEMS LIST....', prevProps, this.props)
-    }
+    
+    // componentDidUpdate(prevProps) {
+    //     console.log('.......ITEMS LIST....', prevProps, this.props)
+    // }
 
     componentWillReceiveProps(nextProps) {
 
@@ -43,9 +48,13 @@ export class ShoppingList extends Component {
     }
 
     onUpdate = (id, data) => {
-        console.log('...CLICKED...', )
+        console.log('...CLICKED...', id)
         this.props.updateItem(id, data)
     }
+
+    toggle = id => {
+        this.setState({ collapse: !this.state.collapse, id: id });
+      }
 
     render() {
         const { items } = this.state;
@@ -58,26 +67,39 @@ export class ShoppingList extends Component {
                             (
                                 <CSSTransition key={_id} timeout={500} classNames="fade">
                                     <ListGroupItem>
-                                        <Button className="remove-btn"
-                                            color='danger'
-                                            size="sm"
-                                            onClick={this.onDeleteClick.bind(this, _id)}>
-                                            &times;
+                                        <Row>
+                                            <Col>
+                                                <Button className="remove-btn"
+                                                    color='danger'
+                                                    size="sm"
+                                                    onClick={this.onDeleteClick.bind(this, _id)}>
+                                                    &times;
                                             </Button>
-                                        {name}
-
-                                        <Form inline style={{ float: 'right' }}>
-                                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                                <Label for="recipe" className="mr-sm-2">Recipe</Label>
-                                                <Input type="text" name="recipe" id="recipe" placeholder="Recipe name.." />
-
-                                            </FormGroup>
-                                            <Button outline color='primary' style={{marginRight: '2rem'}}>Add</Button>
-                                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                                <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
-                                            </FormGroup>
-                                        </Form>
-                                        {/* <Checkbox completed={completed} id={_id}/> */}
+                                                {name}
+                                            </Col>
+                                            <Col>
+                                                <Form inline >
+                                                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                                        <Label for="recipe" className="mr-sm-2">Recipe</Label>
+                                                        <Input type="text" name="recipe" id="recipe" placeholder="Recipe name.." />
+                                                        <Button outline color='primary'>Add</Button>
+                                                    </FormGroup>
+                                                </Form>
+                                            </Col>
+                                            <Col>
+                                                <Form inline style={{ float: 'right' }}>
+                                                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                                        <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
+                                                        <Button color="primary" onClick={this.toggle.bind(this,_id)}>Recipe related to Item</Button>
+                                                    </FormGroup>
+                                                </Form>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                <Recipe open_id={this.state.id} id={_id}/>
+                                            </Col>
+                                        </Row>
                                     </ListGroupItem>
                                 </CSSTransition>
                             )
@@ -92,10 +114,8 @@ export class ShoppingList extends Component {
 
 export default connect(state => {
     const items = state.itemReducer.items || [];
-    const updateSuccessfull = state.itemReducer.updateSuccessfull || false;
     return {
-        items,
-        updateSuccessfull
+        items
     }
 }, dispatch => {
     return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem }, dispatch)
