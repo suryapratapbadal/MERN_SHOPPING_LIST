@@ -8,14 +8,14 @@ const Modal = require('../../models/Item');
 // @rout    GET  api/recipes
 // @desc    Get All Data
 // @access  Public
-router.get('/', (req, res) => {
-    Modal.Recipe.find()
+router.get('/:item_id', (req, res) => {
+    Modal.Recipe.find({ item_id: req.params.item_id })
         .sort({ date: -1 })
         .then(recipes => res.json(recipes)).catch(err => console.log(err));
 });
 
 // @rout    POST  api/recipes
-// @desc    Create An Item
+// @desc    Create An Recipe
 // @access  Public
 router.post('/', (req, res) => {
     const newItem = new Recipe({
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
 });
 
 // @rout    DELETE  api/recipes/:id
-// @desc    Delete A Item
+// @desc    Delete An Recipe
 // @access  Public
 router.delete('/:id', (req, res) => {
     Modal.Recipe.findById(req.params.id)

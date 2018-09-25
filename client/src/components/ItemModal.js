@@ -21,7 +21,6 @@ export class ItemModal extends Component {
         this.state = {
             modal: false,
             name: '',
-            varient: this.props.varient || false,
         };
     }
 
@@ -38,7 +37,6 @@ export class ItemModal extends Component {
         event.preventDefault();
         const newItem = {
             name: this.state.name,
-            varient: this.props.varient || false,
         };
 
 

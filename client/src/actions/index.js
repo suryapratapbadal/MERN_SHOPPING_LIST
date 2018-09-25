@@ -1,3 +1,5 @@
+/////Items Actions/////
+
 export const getItems = () => {
     return async (dispatch, getState) => {
         // dispatch(loading());
@@ -69,11 +71,75 @@ export const updateItem = (id, updateData) => {
                 payload: dataJson
             });
 
-        }).catch(err=>console.log(err));
+        }).catch(err => console.log(err));
 
 
     }
 };
+//////Items Action End////////
+
+
+//////Recipe Actions////////
+
+
+export const getRecipes = item_id => {
+    return async (dispatch, getState) => {
+        // dispatch(loading());
+        return fetch('/api/recipes/' + item_id, {
+            method: 'GET',
+            mode: 'cors',
+        }).then(data => data.json()).then((dataJson) => {
+            dispatch({
+                type: 'GET_RECIPES',
+                payload: dataJson
+            });
+
+        })
+
+
+    }
+};
+
+export const addRecipe = recipe => {
+    return async (dispatch, getState) => {
+        return fetch('/api/recipes', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(recipe),
+        }).then(data => data.json()).then((dataJson) => {
+            dispatch({
+                type: 'ADD_RECIPE',
+                payload: dataJson
+            });
+
+        })
+
+
+    }
+};
+
+export const deleteRecipe = id => {
+    return async (dispatch, getState) => {
+        return fetch('/api/recipes/' + id, {
+            method: 'DELETE',
+            mode: 'cors',
+        }).then(data => data.json()).then((dataJson) => {
+            dispatch({
+                type: 'DELETE_RECIPE',
+                payload: id
+            });
+
+        })
+
+
+    }
+};
+
+//////Recipe Actions End///////////
+
 
 export const verifyUser = () => {
     console.log('action Creators call')
