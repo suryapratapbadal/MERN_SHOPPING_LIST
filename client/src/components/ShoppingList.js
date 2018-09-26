@@ -3,7 +3,6 @@ import {
     Container,
     ListGroup,
     ListGroupItem,
-    Button,
     Form,
     FormGroup,
     CustomInput,
@@ -13,12 +12,22 @@ import {
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem, updateItem } from '../actions/index';
+
+// const styles = theme => ({
+//     button: {
+//       margin: theme.spacing.unit,
+//     }
+//   });
 
 export class ShoppingList extends Component {
     constructor(props) {
@@ -67,12 +76,13 @@ export class ShoppingList extends Component {
 
     render() {
         const { items } = this.state;
+        // const { classes } = this.props;
 
         return (
             <Container>
                 {
                     this.state.loader ?
-                    <Progress animated color="info" value={100} /> :
+                        <Progress animated color="info" value={100} /> :
                         <ListGroup>
                             <TransitionGroup className="shopping-list">
                                 {items.map(({ _id, name, completed }) =>
@@ -81,12 +91,20 @@ export class ShoppingList extends Component {
                                             <ListGroupItem>
                                                 <Row>
                                                     <Col>
-                                                        <Button className="remove-btn"
-                                                            color='danger'
-                                                            size="sm"
-                                                            onClick={this.onDeleteClick.bind(this, _id)}>
-                                                            &times;
-                                                        </Button>
+                                                        <IconButton
+                                                            color="secondary"
+                                                            aria-label="Delete"
+                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                            style={{marginRight: '1rem'}}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                        {/* <Button 
+                                                            color="secondary"
+                                                            // className={classes.button}
+                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                            style={{marginRight: '1rem'}}>
+                                                            <Icon>delete</Icon>
+                                                        </Button> */}
                                                         {name}
                                                     </Col>
                                                     <Col>
@@ -95,7 +113,7 @@ export class ShoppingList extends Component {
                                                     <Col>
                                                         <Form inline style={{ float: 'right' }}>
                                                             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                                                <Button color="success" onClick={this.toggle.bind(this, _id)} style={{ marginRight: '1rem' }}>Click to open Recipe..!</Button>
+                                                                <Button color="primary" variant="contained" onClick={this.toggle.bind(this, _id)} style={{ marginRight: '1rem' }}>Click to open Recipe..!</Button>
                                                                 <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
                                                             </FormGroup>
                                                         </Form>

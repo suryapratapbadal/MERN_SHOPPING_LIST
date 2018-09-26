@@ -13,11 +13,9 @@ class Root extends Component {
         super(props);
         this.state = {
             user: this.props.user,
-            varient: true,
         };
     }
-    render() {
-        console.log('.....',this.props.loading,this.props.user);    
+    render() {  
         return (
             <div className="App">
                 <AppNavbar user={this.props.user}/>
