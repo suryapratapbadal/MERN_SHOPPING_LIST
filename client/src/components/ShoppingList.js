@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import {
     Container,
-    ListGroup,
-    ListGroupItem,
-    Form,
-    FormGroup,
-    CustomInput,
-    Row,
-    Col,
-    Progress
 } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
@@ -22,12 +20,6 @@ import AddRecipe from './AddRecipe';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getItems, deleteItem, updateItem } from '../actions/index';
-
-// const styles = theme => ({
-//     button: {
-//       margin: theme.spacing.unit,
-//     }
-//   });
 
 export class ShoppingList extends Component {
     constructor(props) {
@@ -39,6 +31,7 @@ export class ShoppingList extends Component {
             id: null,
             loader: true
         };
+        this.onDeleteClick =this.onDeleteClick.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +48,8 @@ export class ShoppingList extends Component {
     //     this.setState({ items: nextProps.items })
     // }
 
-    onDeleteClick = id => {
+    onDeleteClick = (id,event) => {
+        event.stopPropagation();
         this.props.deleteItem(id);
     }
 
@@ -76,66 +70,50 @@ export class ShoppingList extends Component {
 
     render() {
         const { items } = this.state;
-        // const { classes } = this.props;
+        const { classes } = this.props;
 
         return (
-            <Container>
-                {
-                    this.state.loader ?
-                        <Progress animated color="info" value={100} /> :
-                        <ListGroup>
-                            <TransitionGroup className="shopping-list">
-                                {items.map(({ _id, name, completed }) =>
-                                    (
-                                        <CSSTransition key={_id} timeout={500} classNames="fade">
-                                            <ListGroupItem>
-                                                <Row>
-                                                    <Col>
-                                                        <IconButton
-                                                            color="secondary"
-                                                            aria-label="Delete"
-                                                            onClick={this.onDeleteClick.bind(this, _id)}
-                                                            style={{marginRight: '1rem'}}>
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                        {/* <Button 
-                                                            color="secondary"
-                                                            // className={classes.button}
-                                                            onClick={this.onDeleteClick.bind(this, _id)}
-                                                            style={{marginRight: '1rem'}}>
-                                                            <Icon>delete</Icon>
-                                                        </Button> */}
-                                                        {name}
-                                                    </Col>
-                                                    <Col>
-                                                        <AddRecipe item_id={_id} />
-                                                    </Col>
-                                                    <Col>
-                                                        <Form inline style={{ float: 'right' }}>
-                                                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                                                <Button color="primary" variant="contained" onClick={this.toggle.bind(this, _id)} style={{ marginRight: '1rem' }}>Click to open Recipe..!</Button>
-                                                                <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
-                                                            </FormGroup>
-                                                        </Form>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col>
-                                                        <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} />
-                                                    </Col>
-                                                </Row>
-                                            </ListGroupItem>
-                                        </CSSTransition>
-                                    )
-                                )}
-                            </TransitionGroup>
-                        </ListGroup>
-                }
+            <Container className={classes.root}>
+                {items.map(({ _id, name, completed }) =>
+                    (
+                        <List
+                            component="nav"
+                            key={_id}
+                        >
+                            <ListItem button onClick={this.toggle.bind(this, _id)}>
+                                <ListItemIcon>
+                                    <IconButton
+                                        color="secondary"
+                                        aria-label="Delete"
+                                        onClick={(event)=> this.onDeleteClick(_id,event)}
+                                        style={{ marginRight: '1rem' }}
+                                        disableRipple>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemIcon>
+                                <ListItemText inset primary={name} />
+                                <AddRecipe item_id={_id} />
+                                {this.state.collapse ? <ExpandLess /> : <ExpandMore />}
+                            </ListItem>
+                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} />
+                        </List>
+                    )
+                )}
             </Container >
+//  <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
         );
     }
 }
 
+const styles = theme => ({
+    root: {
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+    },
+    nested: {
+        paddingLeft: theme.spacing.unit * 4,
+    },
+});
 
 export default connect(state => {
     const items = state.itemReducer.items || [];
@@ -145,4 +123,4 @@ export default connect(state => {
 }, dispatch => {
     return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem }, dispatch)
 }
-)(ShoppingList);
+)(withStyles(styles)(ShoppingList));

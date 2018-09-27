@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import {
-    Collapse,
     Button,
     ListGroup,
     ListGroupItem,
-    Progress,
     Card,
     CardBody,
     CardTitle
 } from 'reactstrap';
 
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import StarBorder from '@material-ui/icons/StarBorder';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -20,23 +25,26 @@ import { getRecipes, deleteRecipe } from '../actions/index';
 class Recipe extends Component {
     constructor(props) {
         super(props);
-        // console.log('....RECIPES PROPS..', this.props)
+        console.log('....RECIPES PROPS..', this.props)
         this.state = {
             recipes: this.props.recipes,
             status: 'Closed',
             loader: false,
         };
     }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.recipes !== prevProps.recipes)
-            this.setState({ recipes: this.props.recipes, loader: false })
+    componentDidMount () {
+        console.log('in did mount');
+        this.props.getRecipes(this.props.id)
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     // console.log('.......Collapse....', nextProps, this.props)
-    //     this.setState({ recipes: nextProps.recipes })
-    // }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.recipes !== prevProps.recipes) {
+            console.log('in update');
+            this.setState({ recipes: this.props.recipes, loader: false })
+        }
+            
+    }
 
     onEntering = () => {
         this.setState({ loader: true })
@@ -66,58 +74,49 @@ class Recipe extends Component {
 
     render() {
         const { recipes } = this.state;
+        console.log(recipes)
+        const { classes } = this.props;
         return (
-            <div>
-                {
-                    this.state.loader ?
-                        <Progress style={{ marginTop: '2rem', marginBottom: '1rem' }} animated color="info" value={100} /> :
-                        <Collapse
-                            isOpen={this.props.id === this.props.open_id && this.props.collapse}
-                            onEntering={this.onEntering}
-                            onEntered={this.onEntered}
-                            onExiting={this.onExiting}
-                            onExited={this.onExited}
-                            style={{ marginTop: '1rem' }}
-                        >
+            <React.Fragment  className={classes.root}>
+                <Collapse in={this.props.id === this.props.open_id && this.props.collapse} timeout="auto" unmountOnExit>
+                    {recipes.length <= 0 ?
+                        <Card>
+                                    <CardBody>
+                                        <CardTitle>No Recipe listed!!</CardTitle>
+                                    </CardBody>
+                        </Card> :
+                        <div>
+                            {recipes.map(({ _id, name }) =>
+                                (
+                                    <List component="div" disablePadding key={_id}>
+                                        <ListItem button className={classes.nested}>
+                                            <ListItemIcon>
+                                                <StarBorder />
+                                            </ListItemIcon>
+                                            <ListItemText inset primary="Starred" />
+                                        </ListItem>
+                                    </List>
+                                )
+                            )}
+                        </div>
+                    }
+                </Collapse>
+            </React.Fragment>
 
-                            {recipes.length <= 0 ?
-                                <Card>
-                                    <TransitionGroup className="recipe-list">
-                                        <CSSTransition timeout={500} classNames="fade">
-                                            <CardBody>
-                                                <CardTitle>No Recipe listed!!</CardTitle>
-                                            </CardBody>
-                                        </CSSTransition>
-                                    </TransitionGroup>
-                                </Card> :
 
-                                <ListGroup>
-                                    <TransitionGroup className="recipe-list">
-                                        {recipes.map(({ _id, name }) =>
-                                            (
-                                                <CSSTransition key={_id} timeout={500} classNames="fade">
-                                                    <ListGroupItem color="info" key={_id}>
-                                                        {name}
-                                                        <Button style={{ float: 'right' }} className="remove-btn"
-                                                            color='danger'
-                                                            size="sm"
-                                                            onClick={this.onDeleteClick.bind(this, _id)}
-                                                        >
-                                                            &times;
-                                                        </Button>
-                                                    </ListGroupItem>
-                                                </CSSTransition>
-                                            )
-                                        )}
-                                    </TransitionGroup>
-                                </ListGroup>}
-
-                        </Collapse>
-                }
-            </div>
         );
     }
 }
+
+
+const styles = theme => ({
+    root: {
+        marginLeft: '2rem'
+    },
+    nested: {
+        paddingLeft: theme.spacing.unit * 4,
+    },
+});
 
 export default connect(state => {
     const recipes = state.recipeReducer.recipes || [];
@@ -127,4 +126,4 @@ export default connect(state => {
 }, dispatch => {
     return bindActionCreators({ getRecipes: getRecipes, deleteRecipe: deleteRecipe }, dispatch)
 }
-)(Recipe);
+)(withStyles(styles)(Recipe));
