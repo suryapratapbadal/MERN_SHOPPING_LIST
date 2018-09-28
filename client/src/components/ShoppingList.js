@@ -13,25 +13,27 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getItems, deleteItem, updateItem } from '../actions/index';
+import { getItems, deleteItem, updateItem, getRecipes } from '../actions/index';
 
 export class ShoppingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             items: this.props.items,
+            recipes: this.props.recipes,
             varient: this.props.varient || false,
             collapse: false,
             id: null,
-            loader: true
+            loader: true,
         };
-        this.onDeleteClick =this.onDeleteClick.bind(this);
+        this.onDeleteClick = this.onDeleteClick.bind(this);
     }
 
     componentDidMount() {
@@ -40,7 +42,9 @@ export class ShoppingList extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.items !== prevProps.items)
-            this.setState({ items: this.props.items, loader: false })
+            this.setState({ items: this.props.items })
+        if (this.props.recipes !== prevProps.recipes)
+            this.setState({ recipes: this.props.recipes })
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -48,13 +52,18 @@ export class ShoppingList extends Component {
     //     this.setState({ items: nextProps.items })
     // }
 
-    onDeleteClick = (id,event) => {
+    onDeleteClick = (id, event) => {
         event.stopPropagation();
         this.props.deleteItem(id);
     }
 
     onUpdate = (id, data) => {
         this.props.updateItem(id, data)
+    }
+
+    getItemRecipes = (id) => {
+        this.props.getRecipes(id);
+        this.toggle(id);
     }
 
     toggle = id => {
@@ -80,27 +89,33 @@ export class ShoppingList extends Component {
                             component="nav"
                             key={_id}
                         >
-                            <ListItem button onClick={this.toggle.bind(this, _id)}>
+                            <ListItem button onClick={this.getItemRecipes.bind(this, _id)}>
                                 <ListItemIcon>
                                     <IconButton
                                         color="secondary"
                                         aria-label="Delete"
-                                        onClick={(event)=> this.onDeleteClick(_id,event)}
+                                        onClick={(event) => this.onDeleteClick(_id, event)}
                                         style={{ marginRight: '1rem' }}
                                         disableRipple>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemIcon>
                                 <ListItemText inset primary={name} />
-                                <AddRecipe item_id={_id} />
+                                <IconButton
+                                    onClick={!this.state.editItem ? this.editItem : this.onUpdate.bind(this, _id, { "name": this.state.name })}
+                                    style={{ marginRight: '1rem' }}
+                                    disableRipple>
+                                    <EditIcon />
+                                </IconButton>
+                                <AddRecipe item_id={_id} style={{ float: 'right' }} />
                                 {this.state.collapse ? <ExpandLess /> : <ExpandMore />}
                             </ListItem>
-                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} />
+                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} recipes={this.state.recipes} />
                         </List>
                     )
                 )}
             </Container >
-//  <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
+            //  <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
         );
     }
 }
@@ -113,14 +128,19 @@ const styles = theme => ({
     nested: {
         paddingLeft: theme.spacing.unit * 4,
     },
+    button: {
+        margin: theme.spacing.unit,
+    },
 });
 
 export default connect(state => {
     const items = state.itemReducer.items || [];
+    const recipes = state.recipeReducer.recipes || [];
     return {
-        items
+        items,
+        recipes
     }
 }, dispatch => {
-    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem }, dispatch)
+    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem, getRecipes: getRecipes }, dispatch)
 }
 )(withStyles(styles)(ShoppingList));
