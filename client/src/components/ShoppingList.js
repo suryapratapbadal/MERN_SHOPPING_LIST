@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
@@ -28,10 +29,10 @@ export class ShoppingList extends Component {
         this.state = {
             items: this.props.items,
             recipes: this.props.recipes,
-            varient: this.props.varient || false,
             collapse: false,
             id: null,
             loader: true,
+            name: ''
         };
         this.onDeleteClick = this.onDeleteClick.bind(this);
     }
@@ -76,6 +77,7 @@ export class ShoppingList extends Component {
         }
 
     }
+    
 
     render() {
         const { items } = this.state;
@@ -102,20 +104,25 @@ export class ShoppingList extends Component {
                                 </ListItemIcon>
                                 <ListItemText inset primary={name} />
                                 <IconButton
-                                    onClick={!this.state.editItem ? this.editItem : this.onUpdate.bind(this, _id, { "name": this.state.name })}
+                                    // onClick={!this.state.editItem ? this.editItem : this.onUpdate.bind(this, _id, { "name": this.state.name })}
                                     style={{ marginRight: '1rem' }}
                                     disableRipple>
                                     <EditIcon />
                                 </IconButton>
                                 <AddRecipe item_id={_id} style={{ float: 'right' }} />
                                 {this.state.collapse ? <ExpandLess /> : <ExpandMore />}
+                                <Checkbox
+                                    checked={completed}
+                                    onChange={this.onUpdate.bind(this, _id, { "completed": !completed })}
+                                    value="checkedA"
+                                />
+
                             </ListItem>
                             <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} recipes={this.state.recipes} />
                         </List>
                     )
                 )}
             </Container >
-            //  <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
         );
     }
 }
