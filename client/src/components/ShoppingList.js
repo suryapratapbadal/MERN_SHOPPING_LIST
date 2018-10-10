@@ -34,7 +34,6 @@ export class ShoppingList extends Component {
         this.state = {
             items: this.props.items,
             recipes: this.props.recipes,
-            varient: this.props.varient || false,
             collapse: false,
             id: null,
             loader: true,
@@ -84,6 +83,7 @@ export class ShoppingList extends Component {
         }
 
     }
+    
 
     onChange = event => {
         this.setState({ itemName: event.target.value });
