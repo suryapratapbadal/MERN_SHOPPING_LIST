@@ -18,9 +18,9 @@ class Root extends Component {
     render() {  
         return (
             <div className="App">
-                <AppNavbar user={this.props.user}/>
+                <AppNavbar changeTheme={this.props.changeTheme}/>
                 {
-                    this.props.user ? <LogIn /> :
+                    !this.props.user ? <LogIn /> :
                     <Container>
                         <ItemModal/>
                         <ShoppingList/>

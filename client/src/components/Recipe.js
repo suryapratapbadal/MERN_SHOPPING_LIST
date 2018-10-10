@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     Collapse,
-    Progress,
     Card,
     CardBody,
     CardTitle
@@ -14,6 +13,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -76,7 +76,7 @@ class Recipe extends Component {
             <div>
                 {
                     this.state.loader ?
-                        <Progress style={{ marginTop: '2rem', marginBottom: '1rem' }} animated color="info" value={100} /> :
+                        <LinearProgress /> :
                         <Collapse
                             isOpen={this.props.id === this.props.open_id && this.props.collapse}
                             onEntering={this.onEntering}
@@ -139,7 +139,7 @@ const styles = theme => ({
 
 
 export default connect(state => {
-    const recipes = state.recipeReducer.recipes || [];
+    const recipes = state.itemReducer.recipes || [];
     return {
         recipes
     }

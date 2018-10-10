@@ -14,6 +14,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Checkbox from '@material-ui/core/Checkbox';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
@@ -32,8 +38,13 @@ export class ShoppingList extends Component {
             collapse: false,
             id: null,
             loader: true,
+            editItem: false,
+            editItemId: null,
+            itemName: ''
         };
         this.onDeleteClick = this.onDeleteClick.bind(this);
+        this.editItem = this.editItem.bind(this);
+        this.saveItem = this.saveItem.bind(this);
     }
 
     componentDidMount() {
@@ -41,16 +52,13 @@ export class ShoppingList extends Component {
     }
 
     componentDidUpdate(prevProps) {
+
         if (this.props.items !== prevProps.items)
-            this.setState({ items: this.props.items })
+            this.setState({ items: this.props.items, loader: false })
         if (this.props.recipes !== prevProps.recipes)
             this.setState({ recipes: this.props.recipes })
     }
 
-    // componentWillReceiveProps(nextProps) {
-
-    //     this.setState({ items: nextProps.items })
-    // }
 
     onDeleteClick = (id, event) => {
         event.stopPropagation();
@@ -77,45 +85,109 @@ export class ShoppingList extends Component {
 
     }
 
+    onChange = event => {
+        this.setState({ itemName: event.target.value });
+    }
+
+    editItem = (event, id) => {
+        event.stopPropagation();
+        this.setState({ editItem: true, editItemId: id, itemName: '' });
+    }
+    saveItem = (event, id) => {
+        event.stopPropagation();
+        if (this.state.itemName !== '') {
+            this.onUpdate(id, { "name": this.state.itemName });
+            this.setState({ editItem: false, editItemId: null });
+        }
+        else
+            this.setState({ editItem: false, editItemId: null });
+    }
+
     render() {
-        const { items } = this.state;
-        const { classes } = this.props;
+        const { items, loader } = this.state;
+        const { classes, loading } = this.props;
 
         return (
             <Container className={classes.root}>
-                {items.map(({ _id, name, completed }) =>
-                    (
+                {
+                    loader ?
+                        <LinearProgress /> :
                         <List
                             component="nav"
-                            key={_id}
                         >
-                            <ListItem button onClick={this.getItemRecipes.bind(this, _id)}>
-                                <ListItemIcon>
-                                    <IconButton
-                                        color="secondary"
-                                        aria-label="Delete"
-                                        onClick={(event) => this.onDeleteClick(_id, event)}
-                                        style={{ marginRight: '1rem' }}
-                                        disableRipple>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemIcon>
-                                <ListItemText inset primary={name} />
-                                <IconButton
-                                    onClick={!this.state.editItem ? this.editItem : this.onUpdate.bind(this, _id, { "name": this.state.name })}
-                                    style={{ marginRight: '1rem' }}
-                                    disableRipple>
-                                    <EditIcon />
-                                </IconButton>
-                                <AddRecipe item_id={_id} style={{ float: 'right' }} />
-                                {this.state.collapse ? <ExpandLess /> : <ExpandMore />}
-                            </ListItem>
-                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} recipes={this.state.recipes} />
+                         {loading && <LinearProgress />}
+                            {items.map(({ _id, name, completed }) =>
+                                (
+
+                                    <Grid container key={_id}>
+                                        <Grid item xs={12}>
+                                            <ListItem button onClick={this.getItemRecipes.bind(this, _id)} disabled={loading}>
+                                                <Grid item xs={1}>
+                                                    <ListItemIcon>
+                                                        <IconButton
+                                                            color="secondary"
+                                                            aria-label="Delete"
+                                                            onClick={(event) => this.onDeleteClick(_id, event)}
+                                                            style={{ marginRight: '1rem' }}
+                                                            disableRipple>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </ListItemIcon>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    {
+                                                        this.state.editItem && _id === this.state.editItemId ?
+                                                            <TextField
+                                                                id="standard-uncontrolled"
+                                                                label="Item Name"
+                                                                defaultValue={name}
+                                                                className={classes.textField}
+                                                                margin="normal"
+                                                                onChange={this.onChange}
+                                                                autoFocus
+                                                            /> :
+                                                            <ListItemText inset primary={name} />
+                                                    }
+                                                </Grid>
+                                                <Grid item xs={1}>
+                                                    <IconButton
+
+                                                        style={{ marginRight: '1rem' }}
+                                                        disableRipple>
+                                                        {
+                                                            this.state.editItem && _id === this.state.editItemId ?
+                                                                <SaveIcon onClick={event => this.saveItem(event, _id)} /> :
+                                                                <EditIcon onClick={event => this.editItem(event, _id)} />
+                                                        }
+
+                                                    </IconButton>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <AddRecipe item_id={_id} style={{ float: 'right' }} />
+                                                </Grid>
+                                                <Grid item xs={1}>
+                                                    {this.state.collapse ? <ExpandLess /> : <ExpandMore />}
+
+                                                </Grid>
+                                                <ListItemSecondaryAction>
+                                                    <Checkbox
+                                                        onChange={this.onUpdate.bind(this, _id, { "completed": !completed })}
+                                                        checked={completed}
+                                                    />
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} recipes={this.state.recipes} />
+                                        </Grid>
+                                    </Grid>
+
+                                )
+                            )}
                         </List>
-                    )
-                )}
+                }
+
             </Container >
-            //  <CustomInput type="checkbox" id={_id} checked={completed} onChange={() => console.log('UPDATED')} onClick={this.onUpdate.bind(this, _id, { "completed": !completed })} />
         );
     }
 }
@@ -131,14 +203,21 @@ const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
     },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 150,
+    },
 });
 
 export default connect(state => {
     const items = state.itemReducer.items || [];
-    const recipes = state.recipeReducer.recipes || [];
+    const recipes = state.itemReducer.recipes || [];
+    const loading = state.itemReducer.loading || false;
     return {
         items,
-        recipes
+        recipes,
+        loading
     }
 }, dispatch => {
     return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem, getRecipes: getRecipes }, dispatch)

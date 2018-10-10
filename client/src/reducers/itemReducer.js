@@ -1,6 +1,7 @@
 
 const initialState = {
     items: [],
+    recipes: [],
     loading: false,
     user: false,
 };
@@ -12,33 +13,27 @@ const itemReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items: payload,
-                loading: false
             };
 
         case 'ADD_ITEM':
             return {
                 ...state,
-                items: [...state.items, payload]
+                items: [...state.items, payload],
+                loading: false
             };
 
         case 'DELETE_ITEM':
             return {
                 ...state,
-                items: state.items.filter(item => item._id !== payload)
+                items: state.items.filter(item => item._id !== payload),
+                loading: false
             };
 
         case 'UPDATE_ITEM':
             return {
                 ...state,
-                items:state.items.filter(item => {
-                    if(item._id === payload._id){
-                        item.completed = payload.completed;
-                        console.log('Reducer..1',item,payload);
-                        return item;
-                }else {
-                    console.log('Reducer..2',item,payload);
-                    return item;
-                }})
+                items:[...state.items.filter(item => item._id !== payload._id), payload],
+                loading: false
             };
 
         case 'VERIFY_USER':
@@ -47,11 +42,37 @@ const itemReducer = (state = initialState, action) => {
                 user: true
             };
 
-        // case 'LOADING':
-        //     return{
-        //         ...state,
-        //         loading: true,
-        //     }
+        case 'LOG_OUT_USER':
+            return {
+                ...state,
+                user: false
+            };
+
+        case 'GET_RECIPES':
+            return {
+                ...state,
+                recipes: payload,
+            };
+
+        case 'ADD_RECIPE':
+            return {
+                ...state,
+                recipes: state.recipes ? [...state.recipes, payload] : [],
+                loading: false
+            };
+
+        case 'DELETE_RECIPE':
+            return {
+                ...state,
+                recipes: state.recipes.filter(recipes => recipes._id !== payload),
+                loading: false
+            };
+
+        case 'LOADING':
+            return {
+                ...state,
+                loading: true,
+            };
 
         default:
             return { ...state };

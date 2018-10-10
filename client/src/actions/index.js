@@ -2,7 +2,7 @@
 
 export const getItems = () => {
     return async (dispatch, getState) => {
-        // dispatch(loading());
+
         return fetch('/api/items', {
             method: 'GET',
             mode: 'cors',
@@ -20,6 +20,10 @@ export const getItems = () => {
 
 export const addItem = item => {
     return async (dispatch, getState) => {
+        dispatch({
+            type: 'LOADING',
+            payload: ''
+        });
         return fetch('/api/items', {
             method: 'POST',
             mode: 'cors',
@@ -41,6 +45,10 @@ export const addItem = item => {
 
 export const deleteItem = id => {
     return async (dispatch, getState) => {
+        dispatch({
+            type: 'LOADING',
+            payload: ''
+        });
         return fetch('/api/items/' + id, {
             method: 'DELETE',
             mode: 'cors',
@@ -58,6 +66,10 @@ export const deleteItem = id => {
 
 export const updateItem = (id, updateData) => {
     return async (dispatch, getState) => {
+        dispatch({
+            type: 'LOADING',
+            payload: ''
+        });
         return fetch('/api/items/' + id, {
             method: 'PUT',
             mode: 'cors',
@@ -84,7 +96,7 @@ export const updateItem = (id, updateData) => {
 
 export const getRecipes = item_id => {
     return async (dispatch, getState) => {
-        // dispatch(loading());
+
         return fetch('/api/recipes/' + item_id, {
             method: 'GET',
             mode: 'cors',
@@ -102,6 +114,10 @@ export const getRecipes = item_id => {
 
 export const addRecipe = recipe => {
     return async (dispatch, getState) => {
+        dispatch({
+            type: 'LOADING',
+            payload: ''
+        });
         return fetch('/api/recipes', {
             method: 'POST',
             mode: 'cors',
@@ -123,6 +139,10 @@ export const addRecipe = recipe => {
 
 export const deleteRecipe = id => {
     return async (dispatch, getState) => {
+        dispatch({
+            type: 'LOADING',
+            payload: ''
+        });
         return fetch('/api/recipes/' + id, {
             method: 'DELETE',
             mode: 'cors',
@@ -142,10 +162,16 @@ export const deleteRecipe = id => {
 
 
 export const verifyUser = () => {
-    console.log('action Creators call')
     return {
         type: 'VERIFY_USER',
         payload: ''
     };
 };
 
+export const logOutUser = () => {
+    console.log('action Creators call')
+    return {
+        type: 'LOG_OUT_USER',
+        payload: ''
+    };
+};
