@@ -7,10 +7,9 @@ import LogIn from './LogIn';
 import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 
-// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
-class Root extends Component {
+export class Root extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,11 +31,6 @@ class Root extends Component {
         );
     }
 }
-// const theme = createMuiTheme({
-//     palette: {
-//         type: 'light',
-//     },
-// });
 
 export default connect(state => {
     const user = state.itemReducer.user || false;

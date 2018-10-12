@@ -15,24 +15,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 
-class AppNavbar extends Component {
+export class AppNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: false,
             dark: false
         };
 
     }
 
-    toggle = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
-
-    handletoggle = (dark) => {
-        this.props.changeTheme(dark ? 'light' : 'dark');
+    handletoggle = () => {
+        this.props.changeTheme(this.state.dark ? 'light' : 'dark');
         this.setState({dark: !this.state.dark});
     }
 
@@ -57,7 +50,7 @@ class AppNavbar extends Component {
                         </Typography>
                         Light
                         <Switch
-                            onChange={() => this.handletoggle(this.state.dark)}
+                            onChange={() => this.handletoggle()}
                             checked={this.state.dark}
                         />
                         Dark

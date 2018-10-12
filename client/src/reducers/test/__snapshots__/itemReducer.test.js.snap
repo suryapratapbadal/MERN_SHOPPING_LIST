@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`select_reducer ADD_ITEM returns the correct state 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": 1,
+          "name": "Milk",
+        },
+      ],
+    },
+  ],
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer ADD_RECIPE returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Array [
+    Object {
+      "recipes": Array [
+        Object {
+          "id": 1,
+          "name": "tea",
+        },
+      ],
+    },
+  ],
+  "user": false,
+}
+`;
+
+exports[`select_reducer DELETE_ITEM returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer DELETE_RECIPE returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer GET_ITEMS returns the correct state 1`] = `
+Object {
+  "items": Object {
+    "items": Array [
+      Object {
+        "id": 1,
+        "name": "Milk",
+      },
+    ],
+  },
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer GET_RECIPES returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Object {
+    "recipes": Array [
+      Object {
+        "id": 1,
+        "name": "tea",
+      },
+    ],
+  },
+  "user": false,
+}
+`;
+
+exports[`select_reducer INITIAL_STATE is correct 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer LOADING returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": true,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer LOG_OUT_USER returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer UPDATE_ITEM returns the correct state 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": 1,
+          "name": "Milk",
+        },
+      ],
+    },
+  ],
+  "loading": false,
+  "recipes": Array [],
+  "user": false,
+}
+`;
+
+exports[`select_reducer VERIFY_USER returns the correct state 1`] = `
+Object {
+  "items": Array [],
+  "loading": false,
+  "recipes": Array [],
+  "user": true,
+}
+`;

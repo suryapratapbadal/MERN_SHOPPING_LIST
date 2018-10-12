@@ -61,7 +61,7 @@ export class ItemModal extends Component {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <Button variant="contained" className={classes.button} onClick={this.toggle}>
+                <Button variant="contained" className={classes.button} onClick={this.toggle} disabled={this.props.loading}>
                     Add Item
                     <AddIcon className={classes.rightIcon} />
                 </Button>
@@ -131,7 +131,10 @@ const styles = theme => ({
 });
 
 export default connect(state => {
-    return {}
+    const loading = state.itemReducer.loading || false;
+    return {
+        loading
+    }
 }, dispatch => {
     return bindActionCreators({ addItem: addItem }, dispatch)
 }

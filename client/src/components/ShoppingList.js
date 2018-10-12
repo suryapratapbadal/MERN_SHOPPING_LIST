@@ -26,7 +26,7 @@ import AddRecipe from './AddRecipe';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getItems, deleteItem, updateItem, getRecipes } from '../actions/index';
+import { getItems, deleteItem, updateItem } from '../actions/index';
 
 export class ShoppingList extends Component {
     constructor(props) {
@@ -68,10 +68,6 @@ export class ShoppingList extends Component {
         this.props.updateItem(id, data)
     }
 
-    getItemRecipes = (id) => {
-        this.props.getRecipes(id);
-        this.toggle(id);
-    }
 
     toggle = id => {
         if (this.state.id === id && this.state.collapse === true) {
@@ -83,7 +79,7 @@ export class ShoppingList extends Component {
         }
 
     }
-    
+
 
     onChange = event => {
         this.setState({ itemName: event.target.value });
@@ -115,13 +111,13 @@ export class ShoppingList extends Component {
                         <List
                             component="nav"
                         >
-                         {loading && <LinearProgress />}
+                            {loading && <LinearProgress />}
                             {items.map(({ _id, name, completed }) =>
                                 (
 
                                     <Grid container key={_id}>
                                         <Grid item xs={12}>
-                                            <ListItem button onClick={this.getItemRecipes.bind(this, _id)} disabled={loading}>
+                                            <ListItem button onClick={this.toggle.bind(this,_id)} disabled={loading}>
                                                 <Grid item xs={1}>
                                                     <ListItemIcon>
                                                         <IconButton
@@ -178,7 +174,7 @@ export class ShoppingList extends Component {
                                             </ListItem>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} recipes={this.state.recipes} />
+                                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} />
                                         </Grid>
                                     </Grid>
 
@@ -220,6 +216,6 @@ export default connect(state => {
         loading
     }
 }, dispatch => {
-    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem, getRecipes: getRecipes }, dispatch)
+    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem}, dispatch)
 }
 )(withStyles(styles)(ShoppingList));

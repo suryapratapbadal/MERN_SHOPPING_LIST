@@ -14,13 +14,12 @@ import { connect } from 'react-redux';
 import { addRecipe } from '../actions/index';
 
 
-class AddRecipe extends Component {
+export class AddRecipe extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
             item_id: this.props.item_id,
-            loader: false
         };
     }
 
@@ -31,12 +30,12 @@ class AddRecipe extends Component {
     onSubmit = event => {
         event.preventDefault();
         event.stopPropagation();
-        
+
         const newRecipe = {
             item_id: this.state.item_id,
             name: this.state.name,
         };
-        this.setState({name: ''})
+        this.setState({ name: '' })
         this.props.addRecipe(newRecipe);
     }
 
@@ -47,15 +46,15 @@ class AddRecipe extends Component {
         return (
             <Form inline>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <TextField
-                                id="outlined-name"
-                                 label="Recipe Name*"
-                                 className={classes.textField}
-                                 value={this.state.name}
-                                 onChange={this.onChange('name')}
-                                 margin="normal"
-                                 variant="outlined"
-                             />
+                    <TextField
+                        id="outlined-name"
+                        label="Recipe Name*"
+                        className={classes.textField}
+                        value={this.state.name}
+                        onChange={this.onChange('name')}
+                        margin="normal"
+                        variant="outlined"
+                    />
                     <Button variant="fab" mini color="secondary" aria-label="Add" className={classes.button} disabled={this.state.name === ''} onClick={this.onSubmit}>
                         <AddIcon />
                     </Button>

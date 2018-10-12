@@ -64,7 +64,9 @@
   "proxy": "http://localhost:5000",
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
+      "src/actions/*.{js,jsx,mjs}",
+      "src/components/*.{js,jsx,mjs}",
+      "src/reducers/*.{js,jsx,mjs}"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>__tests__/setup/setupEnzyme.js",
     "testPathIgnorePatterns": [

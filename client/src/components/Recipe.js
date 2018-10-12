@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import { getRecipes, deleteRecipe } from '../actions/index';
 
 
-class Recipe extends Component {
+export class Recipe extends Component {
     constructor(props) {
         super(props);
 
@@ -46,23 +46,6 @@ class Recipe extends Component {
         this.props.getRecipes(this.props.id)
     }
 
-    // onEntered = () => {
-    //     console.log('......Opened....');
-    // }
-
-    // onExiting = () => {
-    //     console.log('......Closing....');
-    // this.setState({recipes: []})
-    // }
-
-    // onExited = () => {
-
-    // }
-
-    //   toggle = () => {
-    //     this.setState({ collapse: !this.state.collapse });
-    //   }
-
     onDeleteClick = (id, event) => {
         event.stopPropagation();
         this.props.deleteRecipe(id);
@@ -80,9 +63,6 @@ class Recipe extends Component {
                         <Collapse
                             isOpen={this.props.id === this.props.open_id && this.props.collapse}
                             onEntering={this.onEntering}
-                            onEntered={this.onEntered}
-                            onExiting={this.onExiting}
-                            onExited={this.onExited}
                             style={{ marginTop: '1rem' }}
                         >
 

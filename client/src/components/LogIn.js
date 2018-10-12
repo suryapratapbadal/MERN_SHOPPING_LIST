@@ -16,16 +16,15 @@ import { verifyUser } from '../actions/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-class LogIn extends Component {
+export class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
             validEmail: false,
             validateEmail: false,
+            validPassword: true,
             email: '',
             password: '',
-            emailMessage: '',
-            passwordMessage: '',
         };
     }
 
@@ -40,15 +39,15 @@ class LogIn extends Component {
         this.setState({ password: password });
     }
 
-    onEmailBlur = event => {
+    onEmailBlur = () => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (this.state.email === '') {
-            this.setState({ emailMessage: 'Email cannot be blank', validateEmail: true, validEmail: false });
+            this.setState({  validateEmail: true, validEmail: false });
             return;
         }
         if (!re.test(this.state.email)) {
-            this.setState({ emailMessage: 'Please enter valid Email', validateEmail: true, validEmail: false });
+            this.setState({ validateEmail: true, validEmail: false });
             return;
         }
         else {
@@ -66,12 +65,14 @@ class LogIn extends Component {
                 this.props.verifyUser();
             }
             else {
-                this.setState({ validPassword: false, passwordMessage: 'Password not correct, Enter valid password' });
+                this.setState({ validPassword: false });
+                return;
             }
 
         }
         else {
-            this.setState({ validEmail: false, emailMessage: 'Email not correct, Enter valid Mail Id' });
+            this.setState({ validEmail: false });
+            return;
         }
     }
 
@@ -101,6 +102,7 @@ class LogIn extends Component {
                                 <Input
                                     name="password"
                                     type="password"
+                                    error={!this.state.validPassword}
                                     id="password"
                                     autoComplete="current-password"
                                     onChange={this.onPasswordChange}
@@ -108,7 +110,6 @@ class LogIn extends Component {
                                 />
                             </FormControl>
                             <Button
-                                type="submit"
                                 fullWidth
                                 variant="raised"
                                 color="primary"
