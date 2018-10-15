@@ -29,7 +29,7 @@ export class LogIn extends Component {
     }
 
     onEmailChange = event => {
-        
+
         const email = event.target.value;
         this.setState({ email: email });
     }
@@ -43,7 +43,7 @@ export class LogIn extends Component {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (this.state.email === '') {
-            this.setState({  validateEmail: true, validEmail: false });
+            this.setState({ validateEmail: true, validEmail: false });
             return;
         }
         if (!re.test(this.state.email)) {
@@ -92,10 +92,10 @@ export class LogIn extends Component {
                             <LockIcon />
                         </Avatar>
                         <Typography variant="headline">Sign in</Typography>
-                        <form className={classes.form}>
+                        <form className={classes.form} onSubmit={this.validateUser}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                                <Input error={this.state.validateEmail && !this.state.validEmail} id="email" name="email" autoComplete="email" autoFocus onChange={this.onEmailChange} onBlur={this.onEmailBlur}/>
+                                <Input error={this.state.validateEmail && !this.state.validEmail} id="email" name="email" autoComplete="email" autoFocus onChange={this.onEmailChange} onBlur={this.onEmailBlur} />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -110,21 +110,21 @@ export class LogIn extends Component {
                                 />
                             </FormControl>
                             <Button
+                                type="submit"
                                 fullWidth
                                 variant="raised"
                                 color="primary"
                                 className={classes.submit}
                                 disabled={!this.state.validEmail || this.state.password === ''}
-                                onClick={this.validateUser}
                             >
-                            Sign in
+                                Sign in
                             </Button>
                         </form>
                     </Paper>
                 </main>
             </React.Fragment>
 
-           
+
         );
     }
 }
