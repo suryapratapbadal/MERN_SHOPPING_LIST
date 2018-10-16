@@ -3,7 +3,7 @@ const initialState = {
     items: [],
     recipes: [],
     loading: false,
-    user: false,
+    user: true,
 };
 
 const itemReducer = (state = initialState, action) => {

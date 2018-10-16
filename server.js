@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const items = require('./routes/api/items');
-const recipes = require('./routes/api/recipes');
 
 const app = express();
 
@@ -22,7 +21,6 @@ mongoose.connect(db, { useNewUrlParser: true })
 
 // Use Routes
 app.use('/api/items', items);
-app.use('/api/recipes', recipes);
 
 const port = process.env.PORT || 5000;
 

@@ -11,8 +11,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
@@ -23,10 +21,11 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
+import DeleteConfermation from './DeleteConfermation';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getItems, deleteItem, updateItem } from '../actions/index';
+import { getItems, updateItem } from '../actions/index';
 
 export class ShoppingList extends Component {
     constructor(props) {
@@ -41,7 +40,6 @@ export class ShoppingList extends Component {
             editItemId: null,
             itemName: ''
         };
-        this.onDeleteClick = this.onDeleteClick.bind(this);
         this.editItem = this.editItem.bind(this);
         this.saveItem = this.saveItem.bind(this);
     }
@@ -58,11 +56,6 @@ export class ShoppingList extends Component {
             this.setState({ recipes: this.props.recipes })
     }
 
-
-    onDeleteClick = (id, event) => {
-        event.stopPropagation();
-        this.props.deleteItem(id);
-    }
 
     onUpdate = (id, data) => {
         this.props.updateItem(id, data)
@@ -112,25 +105,19 @@ export class ShoppingList extends Component {
                             component="nav"
                         >
                             {loading && <LinearProgress />}
-                            {items.map(({ _id, name, completed }) =>
+                            {items.map(({ _id, name, completed,recipes }) =>
                                 (
 
-                                    <Grid container key={_id}>
+                                    <Grid container key={_id} className={classes.listItem}>
                                         <Grid item xs={12}>
-                                            <ListItem button onClick={this.toggle.bind(this,_id)} disabled={loading}>
+                                            <ListItem>
                                                 <Grid item xs={1}>
-                                                    <ListItemIcon>
-                                                        <IconButton
-                                                            color="secondary"
-                                                            aria-label="Delete"
-                                                            onClick={(event) => this.onDeleteClick(_id, event)}
-                                                            style={{ marginRight: '1rem' }}
-                                                            disableRipple>
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </ListItemIcon>
+                                                    <Checkbox
+                                                        // onChange={this.onUpdate.bind(this, _id, { "completed": !completed })}
+                                                        checked
+                                                    />
                                                 </Grid>
-                                                <Grid item xs={5}>
+                                                <Grid item xs={6}>
                                                     {
                                                         this.state.editItem && _id === this.state.editItemId ?
                                                             <TextField
@@ -159,22 +146,16 @@ export class ShoppingList extends Component {
                                                     </IconButton>
                                                 </Grid>
                                                 <Grid item xs={4}>
-                                                    <AddRecipe item_id={_id} style={{ float: 'right' }} />
+                                                    <AddRecipe id={_id} style={{ float: 'right' }} />
                                                 </Grid>
-                                                <Grid item xs={1}>
-                                                    {this.state.collapse ? <ExpandLess /> : <ExpandMore />}
 
-                                                </Grid>
                                                 <ListItemSecondaryAction>
-                                                    <Checkbox
-                                                        onChange={this.onUpdate.bind(this, _id, { "completed": !completed })}
-                                                        checked={completed}
-                                                    />
+                                                    <DeleteConfermation id={_id}/>
                                                 </ListItemSecondaryAction>
                                             </ListItem>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Recipe open_id={this.state.id} id={_id} collapse={this.state.collapse} />
+                                            <Recipe id={_id} recipes={recipes}/>
                                         </Grid>
                                     </Grid>
 
@@ -191,10 +172,11 @@ export class ShoppingList extends Component {
 const styles = theme => ({
     root: {
         width: '100%',
-        backgroundColor: theme.palette.background.paper,
+
     },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
+    listItem: {
+        marginBottom: '2rem',
+        backgroundColor: theme.palette.background.paper,
     },
     button: {
         margin: theme.spacing.unit,
@@ -203,6 +185,9 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         width: 150,
+    },
+    chip: {
+        margin: theme.spacing.unit,
     },
 });
 
@@ -216,6 +201,6 @@ export default connect(state => {
         loading
     }
 }, dispatch => {
-    return bindActionCreators({ getItems: getItems, deleteItem: deleteItem, updateItem}, dispatch)
+    return bindActionCreators({ getItems: getItems, updateItem: updateItem }, dispatch)
 }
 )(withStyles(styles)(ShoppingList));

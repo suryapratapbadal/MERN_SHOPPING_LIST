@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core'
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addRecipe } from '../actions/index';
+import { updateItem } from '../actions/index';
 
 
 export class AddRecipe extends Component {
@@ -20,6 +20,7 @@ export class AddRecipe extends Component {
         this.state = {
             name: '',
             item_id: this.props.item_id,
+            invalitRecipeName: false,
         };
     }
 
@@ -30,13 +31,17 @@ export class AddRecipe extends Component {
     onSubmit = event => {
         event.preventDefault();
         event.stopPropagation();
-
-        const newRecipe = {
-            item_id: this.state.item_id,
-            name: this.state.name,
-        };
-        this.setState({ name: '' })
-        this.props.addRecipe(newRecipe);
+        if (/^[a-zA-Z]+$/.test(this.state.name)){
+            const newRecipe = {
+                name: this.state.name,
+            };
+            this.setState({ name: '' });
+            this.props.updateItem(this.props.id,{'$push': {'recipes': newRecipe}});
+        }else{
+            alert('Recipe name should contain only Alphabets');
+            this.setState({name: ''});
+            return;
+        }
     }
 
     render() {
@@ -44,7 +49,7 @@ export class AddRecipe extends Component {
         const { classes } = this.props;
 
         return (
-            <Form inline>
+            <Form inline onSubmit={this.onSubmit}>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <TextField
                         id="outlined-name"
@@ -55,7 +60,7 @@ export class AddRecipe extends Component {
                         margin="normal"
                         variant="outlined"
                     />
-                    <Button variant="fab" mini color="secondary" aria-label="Add" className={classes.button} disabled={this.state.name === ''} onClick={this.onSubmit}>
+                    <Button type='submit' variant="fab" mini color="secondary" aria-label="Add" className={classes.button} disabled={this.state.name === ''}>
                         <AddIcon />
                     </Button>
                 </FormGroup>
@@ -80,5 +85,5 @@ export default connect(state => {
         loader
     }
 }, dispatch => {
-    return bindActionCreators({ addRecipe: addRecipe }, dispatch)
+    return bindActionCreators({ updateItem: updateItem }, dispatch)
 })(withStyles(styles)(AddRecipe));

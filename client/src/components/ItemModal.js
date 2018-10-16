@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-// import {
-//     Button,
-//     Modal,
-//     ModalBody,
-//     ModalHeader,
-//     Form,
-//     FormGroup,
-//     Label,
-//     Input
-// } from 'reactstrap';
+
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -32,6 +23,7 @@ export class ItemModal extends Component {
         this.state = {
             modal: false,
             name: '',
+            invalidItemName: false,
         };
     }
 
@@ -45,13 +37,21 @@ export class ItemModal extends Component {
 
     onSubmit = event => {
         event.preventDefault();
-        const newItem = {
-            name: this.state.name,
-        };
+        if (/^[a-zA-Z]+$/.test(this.state.name)) {
+            console.log('true');
+            const newItem = {
+                name: this.state.name,
+            };
+            this.setState({ invalidItemName: false });
 
 
-        this.props.addItem(newItem);
-        this.toggle();
+            this.props.addItem(newItem);
+            this.toggle();
+        } else {
+            this.setState({ invalidItemName: true });
+            return;
+        }
+
     }
 
     render() {
@@ -75,7 +75,15 @@ export class ItemModal extends Component {
                         <Typography variant="title" id="modal-title" className={classes.tittle}>
                             Add to Shopping List
                         </Typography>
+
                         <form className={classes.form} onSubmit={this.onSubmit}>
+                            {
+                                this.state.invalidItemName &&
+
+                                <Typography variant="caption" gutterBottom color="secondary">
+                                    Item name should contain only Alphabets
+                                </Typography>
+                            }
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="item">Item Name</InputLabel>
                                 <Input id="item" name="item" autoComplete="Add shooping item" autoFocus onChange={this.onChange} />

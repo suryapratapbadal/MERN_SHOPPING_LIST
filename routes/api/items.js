@@ -14,7 +14,7 @@ const Modal = require('../../models/Item');
 // @access  Public
 router.get('/', (req, res) => {
     Modal.Item.find()
-        .sort({ date: -1 })
+        .sort({ name: -1 })
         .then(items => res.json(items)).catch(err => console.log(err));
 });
 
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 // @access  Public
 router.delete('/:id', (req, res) => {
     Modal.Item.findById(req.params.id)
-        .then(item => item.remove().then(()=>Modal.Recipe.deleteMany({item_id: req.params.id})).then(() => res.json({ success: true })))
+        .then(item => item.remove().then(() => res.json({ success: true })))
         .catch(err => res.status(404).json({ success: false }));
 });
 
@@ -44,7 +44,7 @@ router.delete('/:id', (req, res) => {
 // @access  Public
 router.put('/:id', (req, res) => {
 
-    Modal.Item.findByIdAndUpdate({ _id: req.params.id }, req.body, {new: true})
+    Modal.Item.findByIdAndUpdate({ _id: req.params.id },  req.body, {new: true})
         .then(item => res.json(item))
         .catch(err => res.status(404).json({ success: false}));
 });
