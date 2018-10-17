@@ -5,9 +5,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -15,12 +12,19 @@ import { deleteItem } from '../actions/index';
 
 class DeleteConfermation extends React.Component {
     state = {
-        open: false,
+        open: this.props.toggleDeleteConfirmation,
     };
 
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
+    componentDidUpdate(prevProps) {
+
+        if (prevProps.toggleDeleteConfirmation !== this.props.toggleDeleteConfirmation) {
+            this.setState({ open: this.props.toggleDeleteConfirmation });
+        }
+    }
+
+    // handleClickOpen = () => {
+    //     this.setState({ open: true });
+    // };
 
     handleClose = () => {
         this.setState({ open: false });
@@ -34,18 +38,7 @@ class DeleteConfermation extends React.Component {
     render() {
         return (
             <div>
-                <ListItemIcon>
-                    <IconButton
-                        color="secondary"
-                        aria-label="Delete"
-                        onClick={this.handleClickOpen}
-                        // onClick={(event) => this.onDeleteClick(_id, event)}
-                        style={{ marginRight: '1rem' }}
-                        disableRipple>
-                        <DeleteIcon />
-                    </IconButton>
-                </ListItemIcon>
-                {/* <Button onClick={this.handleClickOpen}>Open alert dialog</Button> */}
+                
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -78,6 +71,6 @@ export default connect(state => {
         loading
     }
 }, dispatch => {
-    return bindActionCreators({deleteItem: deleteItem }, dispatch)
+    return bindActionCreators({ deleteItem: deleteItem }, dispatch)
 }
 )(DeleteConfermation);

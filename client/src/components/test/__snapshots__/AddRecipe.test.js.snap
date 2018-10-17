@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddRecipe /> render() renders the component 1`] = `
+<Form
+  inline={true}
+  tag="form"
+>
+  <FormGroup
+    className="mb-2 mr-sm-2 mb-sm-0"
+    tag="div"
+  >
+    <TextField
+      className=""
+      id="outlined-name"
+      label="Recipe Name*"
+      margin="normal"
+      onChange={[Function]}
+      required={false}
+      select={false}
+      value=""
+      variant="outlined"
+    />
+    <WithStyles(Button)
+      aria-label="Add"
+      className={Object {}}
+      color="secondary"
+      disabled={true}
+      mini={true}
+      onClick={[Function]}
+      variant="fab"
+    >
+      <pure(AddIcon) />
+    </WithStyles(Button)>
+  </FormGroup>
+</Form>
+`;

@@ -31,7 +31,7 @@ export class AddRecipe extends Component {
     onSubmit = event => {
         event.preventDefault();
         event.stopPropagation();
-        if (/^[a-zA-Z]+$/.test(this.state.name)){
+        if (/^[a-zA-Z ]*$/.test(this.state.name)){
             const newRecipe = {
                 name: this.state.name,
             };

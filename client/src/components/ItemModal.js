@@ -37,7 +37,7 @@ export class ItemModal extends Component {
 
     onSubmit = event => {
         event.preventDefault();
-        if (/^[a-zA-Z]+$/.test(this.state.name)) {
+        if (/^[a-zA-Z ]*$/.test(this.state.name)) {
             console.log('true');
             const newItem = {
                 name: this.state.name,

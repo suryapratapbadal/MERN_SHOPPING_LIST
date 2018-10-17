@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login/> render() renders login component 1`] = `
+<Fragment>
+  <WithStyles(CssBaseline) />
+  <main
+    className="LogIn-layout-134"
+  >
+    <WithStyles(Paper)
+      className="LogIn-paper-135"
+    >
+      <WithStyles(Avatar)
+        className="LogIn-avatar-136"
+      >
+        <pure(LockOutlinedIcon) />
+      </WithStyles(Avatar)>
+      <WithStyles(Typography)
+        variant="headline"
+      >
+        Sign in
+      </WithStyles(Typography)>
+      <form
+        className="LogIn-form-137"
+      >
+        <WithStyles(FormControl)
+          fullWidth={true}
+          margin="normal"
+          required={true}
+        >
+          <WithStyles(InputLabel)
+            htmlFor="email"
+          >
+            Email Address
+          </WithStyles(InputLabel)>
+          <WithStyles(Input)
+            autoComplete="email"
+            autoFocus={true}
+            error={false}
+            id="email"
+            name="email"
+            onBlur={[Function]}
+            onChange={[Function]}
+          />
+        </WithStyles(FormControl)>
+        <WithStyles(FormControl)
+          fullWidth={true}
+          margin="normal"
+          required={true}
+        >
+          <WithStyles(InputLabel)
+            htmlFor="password"
+          >
+            Password
+          </WithStyles(InputLabel)>
+          <WithStyles(Input)
+            autoComplete="current-password"
+            error={false}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            type="password"
+          />
+        </WithStyles(FormControl)>
+        <WithStyles(Button)
+          className="LogIn-submit-138"
+          color="primary"
+          disabled={true}
+          fullWidth={true}
+          onClick={[Function]}
+          variant="raised"
+        >
+          Sign in
+        </WithStyles(Button)>
+      </form>
+    </WithStyles(Paper)>
+  </main>
+</Fragment>
+`;

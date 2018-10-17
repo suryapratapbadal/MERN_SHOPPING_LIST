@@ -4,12 +4,10 @@ import {
 } from 'reactstrap';
 
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
@@ -22,6 +20,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Recipe from './Recipe';
 import AddRecipe from './AddRecipe';
 import DeleteConfermation from './DeleteConfermation';
+import ToggleMenu from './ToggleMenu';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -38,7 +37,8 @@ export class ShoppingList extends Component {
             loader: true,
             editItem: false,
             editItemId: null,
-            itemName: ''
+            itemName: '',
+            toggleDeleteConfirmation: false
         };
         this.editItem = this.editItem.bind(this);
         this.saveItem = this.saveItem.bind(this);
@@ -73,16 +73,20 @@ export class ShoppingList extends Component {
 
     }
 
-
+    toggleDeleteConfirmationDialogue = () => {
+        this.setState({ toggleDeleteConfirmation: !this.state.toggleDeleteConfirmation })
+    }
     onChange = event => {
         this.setState({ itemName: event.target.value });
     }
 
     editItem = (event, id) => {
+        event.preventDefault();
         event.stopPropagation();
         this.setState({ editItem: true, editItemId: id, itemName: '' });
     }
     saveItem = (event, id) => {
+        event.preventDefault();
         event.stopPropagation();
         if (this.state.itemName !== '') {
             this.onUpdate(id, { "name": this.state.itemName });
@@ -105,19 +109,19 @@ export class ShoppingList extends Component {
                             component="nav"
                         >
                             {loading && <LinearProgress />}
-                            {items.map(({ _id, name, completed,recipes }) =>
+                            {items.map(({ _id, name, completed, recipes }) =>
                                 (
 
-                                    <Grid container key={_id} className={classes.listItem}>
+                                    <Grid container key={_id} className={loading ? classes.listItemDeactivate: classes.listItem}>
                                         <Grid item xs={12}>
                                             <ListItem>
-                                                <Grid item xs={1}>
+                                                <Grid item xs={1} >
                                                     <Checkbox
                                                         // onChange={this.onUpdate.bind(this, _id, { "completed": !completed })}
                                                         checked
                                                     />
                                                 </Grid>
-                                                <Grid item xs={6}>
+                                                <Grid item xs={6} className={completed ? classes.listItemDeactivate : ''}>
                                                     {
                                                         this.state.editItem && _id === this.state.editItemId ?
                                                             <TextField
@@ -132,30 +136,31 @@ export class ShoppingList extends Component {
                                                             <ListItemText inset primary={name} />
                                                     }
                                                 </Grid>
-                                                <Grid item xs={1}>
+                                                <Grid item xs={1} className={completed ? classes.listItemDeactivate : ''}>
                                                     <IconButton
-
+                                                        onClick={this.state.editItem && _id === this.state.editItemId ? event => this.saveItem(event, _id) : event => this.editItem(event, _id)}
                                                         style={{ marginRight: '1rem' }}
                                                         disableRipple>
                                                         {
                                                             this.state.editItem && _id === this.state.editItemId ?
-                                                                <SaveIcon onClick={event => this.saveItem(event, _id)} /> :
-                                                                <EditIcon onClick={event => this.editItem(event, _id)} />
+                                                                <SaveIcon/> :
+                                                                <EditIcon/>
                                                         }
 
                                                     </IconButton>
                                                 </Grid>
-                                                <Grid item xs={4}>
+                                                <Grid item xs={4} className={completed ? classes.listItemDeactivate : ''}>
                                                     <AddRecipe id={_id} style={{ float: 'right' }} />
                                                 </Grid>
 
                                                 <ListItemSecondaryAction>
-                                                    <DeleteConfermation id={_id}/>
+                                                    <DeleteConfermation toggleDeleteConfirmation={this.state.toggleDeleteConfirmation} id={_id} />
+                                                    <ToggleMenu toggleDeleteConfirmationDialogue={this.toggleDeleteConfirmationDialogue} completed={completed} id={_id} />
                                                 </ListItemSecondaryAction>
                                             </ListItem>
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            <Recipe id={_id} recipes={recipes}/>
+                                        <Grid item xs={12} className={completed ? classes.listItemDeactivate : ''}>
+                                            <Recipe id={_id} recipes={recipes} />
                                         </Grid>
                                     </Grid>
 
@@ -177,6 +182,10 @@ const styles = theme => ({
     listItem: {
         marginBottom: '2rem',
         backgroundColor: theme.palette.background.paper,
+    },
+    listItemDeactivate: {
+        opacity: 0.5,
+        pointerEvents: 'none'
     },
     button: {
         margin: theme.spacing.unit,

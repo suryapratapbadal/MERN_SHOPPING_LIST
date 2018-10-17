@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ItemModal /> render() renders the component 1`] = `
+<div
+  className={Object {}}
+>
+  <WithStyles(CssBaseline) />
+  <WithStyles(Button)
+    className={Object {}}
+    disabled={false}
+    onClick={[Function]}
+    variant="contained"
+  >
+    Add Item
+    <pure(AddIcon)
+      className={Object {}}
+    />
+  </WithStyles(Button)>
+  <WithStyles(Modal)
+    aria-describedby="simple-modal-description"
+    aria-labelledby="simple-modal-title"
+    onClose={[Function]}
+    open={false}
+  >
+    <div
+      className={Object {}}
+    >
+      <WithStyles(Typography)
+        className={Object {}}
+        id="modal-title"
+        variant="title"
+      >
+        Add to Shopping List
+      </WithStyles(Typography)>
+      <form
+        className={Object {}}
+        onSubmit={[Function]}
+      >
+        <WithStyles(FormControl)
+          fullWidth={true}
+          margin="normal"
+          required={true}
+        >
+          <WithStyles(InputLabel)
+            htmlFor="item"
+          >
+            Item Name
+          </WithStyles(InputLabel)>
+          <WithStyles(Input)
+            autoComplete="Add shooping item"
+            autoFocus={true}
+            id="item"
+            name="item"
+            onChange={[Function]}
+          />
+        </WithStyles(FormControl)>
+        <WithStyles(Button)
+          className={Object {}}
+          disabled={true}
+          fullWidth={true}
+          type="submit"
+          variant="raised"
+        >
+          Add Item
+        </WithStyles(Button)>
+      </form>
+    </div>
+  </WithStyles(Modal)>
+</div>
+`;

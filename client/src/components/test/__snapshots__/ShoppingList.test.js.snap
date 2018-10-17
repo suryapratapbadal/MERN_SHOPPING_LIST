@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ShoppingList /> render() renders the component 1`] = `
+<Container
+  className="ShoppingList-root-199"
+  tag="div"
+>
+  <WithStyles(List)
+    component="nav"
+  >
+    <WithStyles(Grid)
+      container={true}
+      key="1"
+    >
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(ListItem)
+          button={true}
+          disabled={false}
+          onClick={[Function]}
+        >
+          <WithStyles(Grid)
+            item={true}
+            xs={1}
+          >
+            <WithStyles(ListItemIcon)>
+              <WithStyles(IconButton)
+                aria-label="Delete"
+                color="secondary"
+                disableRipple={true}
+                onClick={[Function]}
+                style={
+                  Object {
+                    "marginRight": "1rem",
+                  }
+                }
+              >
+                <pure(DeleteIcon) />
+              </WithStyles(IconButton)>
+            </WithStyles(ListItemIcon)>
+          </WithStyles(Grid)>
+          <WithStyles(Grid)
+            item={true}
+            xs={5}
+          >
+            <WithStyles(ListItemText)
+              inset={true}
+              primary="Milk"
+            />
+          </WithStyles(Grid)>
+          <WithStyles(Grid)
+            item={true}
+            xs={1}
+          >
+            <WithStyles(IconButton)
+              disableRipple={true}
+              style={
+                Object {
+                  "marginRight": "1rem",
+                }
+              }
+            >
+              <pure(EditIcon)
+                onClick={[Function]}
+              />
+            </WithStyles(IconButton)>
+          </WithStyles(Grid)>
+          <WithStyles(Grid)
+            item={true}
+            xs={4}
+          >
+            <Connect(WithStyles(AddRecipe))
+              item_id="1"
+              style={
+                Object {
+                  "float": "right",
+                }
+              }
+            />
+          </WithStyles(Grid)>
+          <WithStyles(Grid)
+            item={true}
+            xs={1}
+          >
+            <pure(ExpandMoreIcon) />
+          </WithStyles(Grid)>
+          <WithStyles(ListItemSecondaryAction)>
+            <WithStyles(Checkbox)
+              onChange={[Function]}
+            />
+          </WithStyles(ListItemSecondaryAction)>
+        </WithStyles(ListItem)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <Connect(WithStyles(Recipe))
+          collapse={false}
+          id="1"
+          open_id={null}
+        />
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+  </WithStyles(List)>
+</Container>
+`;

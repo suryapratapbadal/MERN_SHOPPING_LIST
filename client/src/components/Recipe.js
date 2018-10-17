@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import {
-    Collapse,
-    Card,
-    CardBody,
-    CardTitle
-} from 'reactstrap';
 
 import { withStyles } from '@material-ui/core/styles';
 

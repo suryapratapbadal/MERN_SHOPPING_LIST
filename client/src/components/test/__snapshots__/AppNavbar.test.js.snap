@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AppNavbar /> render() renders the component 1`] = `
+<div
+  className={Object {}}
+>
+  <WithStyles(AppBar)
+    position="static"
+  >
+    <WithStyles(Toolbar)>
+      <WithStyles(IconButton)
+        aria-label="Menu"
+        className={Object {}}
+        color="inherit"
+      >
+        <pure(AddShoppingCartIcon) />
+      </WithStyles(IconButton)>
+      <WithStyles(Typography)
+        className={Object {}}
+        color="inherit"
+        href="/"
+        variant="title"
+      >
+        ShoopinList
+      </WithStyles(Typography)>
+      Light
+      <WithStyles(Switch)
+        checked={false}
+        onChange={[Function]}
+      />
+      Dark
+      <WithStyles(Button)
+        color="secondary"
+        disabled={true}
+        onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": "2em",
+          }
+        }
+        variant="contained"
+      >
+        Log Out
+      </WithStyles(Button)>
+    </WithStyles(Toolbar)>
+  </WithStyles(AppBar)>
+</div>
+`;
