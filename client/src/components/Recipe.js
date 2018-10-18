@@ -23,11 +23,11 @@ export class Recipe extends Component {
 
     onDeleteClick = (id, event) => {
         event.stopPropagation();
-        this.props.updateItem(this.props.id,{'$pull': { 'recipes': { '_id': id} } });
+        this.props.updateItem(this.props.id, { '$pull': { 'recipes': { '_id': id } } });
     }
 
     render() {
-        const { classes,recipes } = this.props;
+        const { classes, recipes } = this.props;
 
         return (
             <div>
@@ -64,6 +64,9 @@ const styles = theme => ({
     },
     nested: {
         paddingLeft: theme.spacing.unit * 4,
+    },
+    chip: {
+        margin: theme.spacing.unit,
     },
 });
 

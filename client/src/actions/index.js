@@ -7,12 +7,13 @@ export const getItems = () => {
             method: 'GET',
             mode: 'cors',
         }).then(data => data.json()).then((dataJson) => {
+            
             dispatch({
                 type: 'GET_ITEMS',
                 payload: dataJson
             });
 
-        })
+        }).catch(err=> console.log(err));
 
 
     }
