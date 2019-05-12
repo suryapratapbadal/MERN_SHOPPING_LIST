@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ToggleMenu /> render() renders the component 1`] = `
+<div>
+  <WithStyles(IconButton)
+    aria-haspopup="true"
+    aria-label="More"
+    aria-owns={null}
+    onClick={[Function]}
+  >
+    <pure(MoreVertIcon) />
+  </WithStyles(IconButton)>
+  <WithStyles(Menu)
+    PaperProps={
+      Object {
+        "style": Object {
+          "maxHeight": 112.5,
+          "width": 100,
+        },
+      }
+    }
+    anchorEl={null}
+    id="long-menu"
+    onClose={[Function]}
+    open={false}
+  >
+    <WithStyles(MenuItem)
+      key="Delete"
+      onClick={[Function]}
+      selected={true}
+    >
+      Delete
+    </WithStyles(MenuItem)>
+    <WithStyles(MenuItem)
+      key="Done"
+      onClick={[Function]}
+      selected={false}
+    >
+      Done
+    </WithStyles(MenuItem)>
+  </WithStyles(Menu)>
+</div>
+`;

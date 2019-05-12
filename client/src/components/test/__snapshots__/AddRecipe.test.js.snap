@@ -3,6 +3,7 @@
 exports[`<AddRecipe /> render() renders the component 1`] = `
 <Form
   inline={true}
+  onSubmit={[Function]}
   tag="form"
 >
   <FormGroup
@@ -26,7 +27,7 @@ exports[`<AddRecipe /> render() renders the component 1`] = `
       color="secondary"
       disabled={true}
       mini={true}
-      onClick={[Function]}
+      type="submit"
       variant="fab"
     >
       <pure(AddIcon) />

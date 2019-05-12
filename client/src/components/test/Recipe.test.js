@@ -5,9 +5,7 @@ import toJson from 'enzyme-to-json';
 // Component to be tested
 import { Recipe } from '../Recipe';
 
-const mockgetRecipessfn = jest.fn();
-const mockdeleteRecipefn = jest.fn();
-const mockonEnteringfn = jest.fn();
+const mockupdateRecipefn = jest.fn();
 const recipes = [{ _id: '1', name: 'Tea' }];
 const classes = {
     root: {},
@@ -17,7 +15,7 @@ const id ='1';
 
 describe('<Recipe />', () => {
 
-    const wrapper = shallow(<Recipe recipes={recipes} classes={classes} deleteRecipe={mockdeleteRecipefn} getRecipes={mockgetRecipessfn} onEntering={mockonEnteringfn} open_id={id} id={id} collapse={true}/>);
+    const wrapper = shallow(<Recipe recipes={recipes} classes={classes} updateItem={mockupdateRecipefn} id={id} loading={false}/>);
     const event = {
         stopPropagation: jest.fn(),
         target: {
@@ -36,18 +34,11 @@ describe('<Recipe />', () => {
     
     describe('onClick()',()=>{
         test('Delete recipe item',()=>{
-            wrapper.find('WithStyles(IconButton)').props().onClick(event);
-            expect(mockdeleteRecipefn).toHaveBeenCalled();
+            wrapper.find('WithStyles(Chip)').props().onDelete(event);
+            expect(mockupdateRecipefn).toHaveBeenCalled();
         });
     });
 
-    describe('onEntring()', () => {
-        test('set loader to true and calls to getRecipes()', () => {
-            wrapper.find('Collapse').props().onEntering();
-            expect(wrapper.state('loader')).toEqual(true);
-            expect(mockgetRecipessfn).toHaveBeenCalled();
-        });
-    });
 
     
 });

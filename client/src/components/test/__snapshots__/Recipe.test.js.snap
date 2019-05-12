@@ -2,62 +2,15 @@
 
 exports[`<Recipe /> render() renders the component 1`] = `
 <div>
-  <Collapse
-    appear={false}
-    enter={true}
-    exit={true}
-    in={false}
-    isOpen={true}
-    mountOnEnter={false}
-    onEnter={[Function]}
-    onEntered={[Function]}
-    onEntering={[Function]}
-    onExit={[Function]}
-    onExited={[Function]}
-    onExiting={[Function]}
-    style={
-      Object {
-        "marginTop": "1rem",
-      }
-    }
-    tag="div"
-    timeout={350}
-    unmountOnExit={false}
+  <div
+    className={Object {}}
   >
-    <div
-      className={Object {}}
-    >
-      <WithStyles(List)
-        component="div"
-        disablePadding={true}
-        key="1"
-      >
-        <WithStyles(ListItem)
-          button={true}
-          className={Object {}}
-        >
-          <WithStyles(ListItemIcon)>
-            <WithStyles(IconButton)
-              aria-label="Delete"
-              color="secondary"
-              disableRipple={true}
-              onClick={[Function]}
-              style={
-                Object {
-                  "marginRight": "1rem",
-                }
-              }
-            >
-              <pure(DeleteIcon) />
-            </WithStyles(IconButton)>
-          </WithStyles(ListItemIcon)>
-          <WithStyles(ListItemText)
-            inset={true}
-            primary="Tea"
-          />
-        </WithStyles(ListItem)>
-      </WithStyles(List)>
-    </div>
-  </Collapse>
+    <WithStyles(Chip)
+      color="primary"
+      key="1"
+      label="Tea"
+      onDelete={[Function]}
+    />
+  </div>
 </div>
 `;

@@ -21,17 +21,19 @@ exports[`<Login/> render() renders login component 1`] = `
       </WithStyles(Typography)>
       <form
         className="LogIn-form-137"
+        onSubmit={[Function]}
       >
         <WithStyles(FormControl)
+          error={false}
           fullWidth={true}
           margin="normal"
           required={true}
         >
-          <WithStyles(InputLabel)
+          <WithStyles(WithFormControlContext(InputLabel))
             htmlFor="email"
           >
             Email Address
-          </WithStyles(InputLabel)>
+          </WithStyles(WithFormControlContext(InputLabel))>
           <WithStyles(Input)
             autoComplete="email"
             autoFocus={true}
@@ -41,17 +43,21 @@ exports[`<Login/> render() renders login component 1`] = `
             onBlur={[Function]}
             onChange={[Function]}
           />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            color="secondary"
+            id="component-error-text"
+          />
         </WithStyles(FormControl)>
         <WithStyles(FormControl)
           fullWidth={true}
           margin="normal"
           required={true}
         >
-          <WithStyles(InputLabel)
+          <WithStyles(WithFormControlContext(InputLabel))
             htmlFor="password"
           >
             Password
-          </WithStyles(InputLabel)>
+          </WithStyles(WithFormControlContext(InputLabel))>
           <WithStyles(Input)
             autoComplete="current-password"
             error={false}
@@ -66,7 +72,7 @@ exports[`<Login/> render() renders login component 1`] = `
           color="primary"
           disabled={true}
           fullWidth={true}
-          onClick={[Function]}
+          type="submit"
           variant="raised"
         >
           Sign in

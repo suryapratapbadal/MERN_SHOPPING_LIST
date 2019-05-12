@@ -6,7 +6,7 @@ import toJson from 'enzyme-to-json';
 import { AddRecipe } from '../AddRecipe';
 
 
-const mockaddRecipefn = jest.fn();
+const mockupdatefn = jest.fn();
 const classes = {
     button: {},
     textField: '',
@@ -15,7 +15,7 @@ const classes = {
 // Component Renders
 describe('<AddRecipe />', () => {
 
-    const wrapper = shallow(<AddRecipe addRecipe={mockaddRecipefn} item_id={'1'} classes={classes}/>);
+    const wrapper = shallow(<AddRecipe updateItem={mockupdatefn} item_id={'1'} classes={classes}/>);
     const event = {
         stopPropagation: jest.fn(),
         preventDefault: jest.fn(),
@@ -40,11 +40,11 @@ describe('<AddRecipe />', () => {
         });
     });
 
-    describe('onClick()',()=>{
+    describe('onSubmit()',()=>{
         test('handle add recipe',()=>{
-            wrapper.find('WithStyles(Button)').props().onClick(event);
+            wrapper.find('Form').props().onSubmit(event);
             expect(wrapper.state('name')).toEqual('');
-            expect(mockaddRecipefn).toHaveBeenCalled();
+            expect(mockupdatefn).toHaveBeenCalled();
 
         });
     });

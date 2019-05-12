@@ -5,6 +5,10 @@ import toJson from 'enzyme-to-json';
 // Component to be tested
 import { LogIn } from '../LogIn';
 
+const event = {
+    stopPropagation: jest.fn(),
+    preventDefault: jest.fn()
+  }
 const mockVerifyUserfn = jest.fn();
 const user = [
     {
@@ -54,9 +58,9 @@ describe('<Login/>', () => {
 
     });
 
-    describe('OnClick()', () => {
+    describe('onSubmit()', () => {
         test('check validity of user', () => {
-            wrapper.find('WithStyles(Button)').props().onClick();
+            wrapper.find('form').props().onSubmit(event);
             expect(wrapper.state('validEmail')).toEqual(false);
         });
 

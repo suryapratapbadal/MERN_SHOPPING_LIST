@@ -10,7 +10,7 @@ import { updateItem } from '../actions/index';
 
 const ITEM_HEIGHT = 25;
 
-class ToggleMenu extends React.Component {
+export class ToggleMenu extends React.Component {
   state = {
     anchorEl: null,
     shopped: this.props.completed 

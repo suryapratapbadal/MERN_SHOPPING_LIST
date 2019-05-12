@@ -41,11 +41,11 @@ exports[`<ItemModal /> render() renders the component 1`] = `
           margin="normal"
           required={true}
         >
-          <WithStyles(InputLabel)
+          <WithStyles(WithFormControlContext(InputLabel))
             htmlFor="item"
           >
             Item Name
-          </WithStyles(InputLabel)>
+          </WithStyles(WithFormControlContext(InputLabel))>
           <WithStyles(Input)
             autoComplete="Add shooping item"
             autoFocus={true}

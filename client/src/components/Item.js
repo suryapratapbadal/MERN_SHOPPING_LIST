@@ -21,7 +21,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateItem } from '../actions/index';
 
-class Item extends Component {
+export class Item extends Component {
 
     constructor(props) {
         super(props);

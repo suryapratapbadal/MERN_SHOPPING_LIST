@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { deleteItem } from '../actions/index';
 
-class DeleteConfermation extends React.Component {
+export class DeleteConfermation extends React.Component {
     state = {
         open: this.props.toggleDeleteConfirmation,
     };

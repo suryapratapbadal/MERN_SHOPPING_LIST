@@ -5,7 +5,7 @@ describe('select_reducer', () => {
   describe('INITIAL_STATE', () => {
     test('is correct', () => {
       const action = { type: 'dummy_action' };
-      const initialState = { items: [], loading: false, recipes: [], user: false };
+      const initialState = { items: [], loading: false, recipes: [], user: true };
 
       expect(itemReducer(undefined, action)).toEqual(initialState);
       expect(itemReducer(undefined, action)).toMatchSnapshot();

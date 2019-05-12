@@ -49,43 +49,6 @@ describe('<ShoppingList />', () => {
 
   });
 
-  describe('onDeleteClick()', () => {
-
-    test('works on delete button click', () => {
-      wrapper.find('WithStyles(IconButton)').at(0).props().onClick(event);
-      expect(mockdeleteItemfn).toBeCalledWith('1');
-    });
-
-  });
-
-  describe('onClick()', () => {
-
-    test('toggle the edit item state', () => {
-      wrapper.find('pure(EditIcon)').at(0).props().onClick(event);
-      expect(wrapper.state('editItem')).toEqual(true);
-    });
-
-  });
-
-  describe('onChange()', () => {
-
-    test('changes the checkbox state', () => {
-      wrapper.find('WithStyles(Checkbox)').at(0).props().onChange('1',{'completed': true});
-      expect(mockupdateItemfn).toBeCalledWith('1',{'completed': true});
-    });
-
-  });
-
-
-  describe('onClick()', () => {
-
-    test('toggle the collapse)', () => {
-      wrapper.find('WithStyles(ListItem)').at(0).props().onClick('1');
-      expect(wrapper.state('collapse')).toEqual(true);
-      expect(wrapper.state('id')).toEqual('1');
-    });
-
-  });
 
 });
 
